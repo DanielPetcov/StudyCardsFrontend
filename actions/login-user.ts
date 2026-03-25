@@ -1,22 +1,17 @@
+import { LoginSchema } from "@/schemas/login.schema"
+
 import { authClient } from "@/lib/auth-client"
 
-import { RegisterSchema } from "@/schemas/register.schema"
-
-interface RegisterUserProps {
-  dto: RegisterSchema
+interface LoginUserProps {
+  dto: LoginSchema
   setLoading: (value: boolean) => void
   setError: (message: string) => void
 }
 
-export async function RegisterUser({
-  dto,
-  setLoading,
-  setError,
-}: RegisterUserProps) {
-  const { data, error } = await authClient.signUp.email(
+export async function LoginUser({ dto, setLoading, setError }: LoginUserProps) {
+  const { data, error } = await authClient.signIn.email(
     {
       email: dto.email,
-      name: dto.name,
       password: dto.password,
       callbackURL: "/dashboard",
     },

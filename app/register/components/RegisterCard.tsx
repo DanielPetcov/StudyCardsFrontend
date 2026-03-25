@@ -12,7 +12,14 @@ import { toast } from "sonner"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+  CardAction,
+} from "@/components/ui/card"
 import {
   InputGroup,
   InputGroupInput,
@@ -22,6 +29,7 @@ import {
 import FormError from "@/components/FormError"
 
 import { RegisterUser } from "@/actions/register-user"
+import Link from "next/link"
 
 export default function RegisterCard() {
   const {
@@ -60,24 +68,28 @@ export default function RegisterCard() {
     <Card className="min-w-sm">
       <CardHeader>
         <CardTitle>Register Page</CardTitle>
+        <CardAction>
+          <Link href="/login">Login</Link>
+        </CardAction>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" {...register("email")} />
-            {errors.email && <FormError message={errors.email.message || ""} />}
+            <Input disabled={loading} id="email" {...register("email")} />
+            {errors.email && <FormError message={errors.email.message ?? ""} />}
           </div>
           <div className="space-y-2">
             <Label htmlFor="name">Name</Label>
-            <Input id="name" {...register("name")} />
-            {errors.name && <FormError message={errors.name.message || ""} />}
+            <Input disabled={loading} id="name" {...register("name")} />
+            {errors.name && <FormError message={errors.name.message ?? ""} />}
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
             <InputGroup>
               <InputGroupInput
                 id="password"
+                disabled={loading}
                 type={passwordVisible ? "text" : "password"}
                 {...register("password")}
               />
@@ -99,6 +111,7 @@ export default function RegisterCard() {
             <Send />
           </Button>
         </form>
+        {formActionError && <FormError message={formActionError} />}
       </CardContent>
     </Card>
   )
