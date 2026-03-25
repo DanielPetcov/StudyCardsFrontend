@@ -1,3 +1,9 @@
+import RegisterCard from "./components/RegisterCard"
+
 export default function RegisterPage() {
-  return <div>this is the register page</div>
+  return (
+    <div className="flex min-h-screen items-center justify-center px-4">
+      <RegisterCard />
+    </div>
+  )
 }
