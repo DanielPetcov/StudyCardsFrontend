@@ -1,14 +1,15 @@
 "use client"
-import { useState } from "react"
 
+import Link from "next/link"
+import { useState } from "react"
 import { useForm, SubmitHandler } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Eye, EyeClosed, Loader2, MoveRight } from "lucide-react"
+import { toast } from "sonner"
 
 import { RegisterSchema } from "@/schemas/register.schema"
+import { RegisterUser } from "@/actions/register-user"
 
-import { EyeIcon, EyeOffIcon, Send } from "lucide-react"
-
-import { toast } from "sonner"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -19,24 +20,23 @@ import {
   CardContent,
   CardFooter,
   CardAction,
+  CardDescription,
 } from "@/components/ui/card"
 import {
   InputGroup,
   InputGroupInput,
   InputGroupAddon,
+  InputGroupButton,
 } from "@/components/ui/input-group"
 
 import FormError from "@/components/FormError"
-
-import { RegisterUser } from "@/actions/register-user"
-import Link from "next/link"
 
 export default function RegisterCard() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<RegisterSchema>({
     resolver: zodResolver(RegisterSchema),
   })
 
@@ -44,75 +44,130 @@ export default function RegisterCard() {
   const [loading, setLoading] = useState(false)
   const [formActionError, setFormActionError] = useState<string | null>(null)
 
-  const setLoadingFunction = (value: boolean) => {
-    setLoading(value)
-  }
-
-  const setFormActionErrorFunction = (message: string) => {
-    setFormActionError(message)
-  }
-
   const onSubmit: SubmitHandler<RegisterSchema> = async (data) => {
-    const actionData = await RegisterUser({
-      dto: data,
-      setLoading: setLoadingFunction,
-      setError: setFormActionErrorFunction,
-    })
+    try {
+      setFormActionError(null)
+      setLoading(true)
 
-    if (actionData) {
-      toast.success("succesfully submited")
+      const actionData = await RegisterUser({
+        dto: data,
+        setLoading,
+        setError: setFormActionError,
+      })
+
+      if (actionData) {
+        toast.success("Account created successfully")
+      }
+    } catch {
+      setFormActionError("A network error happened. Try again.")
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <Card className="min-w-sm">
-      <CardHeader>
-        <CardTitle>Register Page</CardTitle>
-        <CardAction>
-          <Link href="/login">Login</Link>
-        </CardAction>
+    <Card
+      interactive={false}
+      className="w-full max-w-md bg-surface-container-lowest/90 backdrop-blur-sm"
+    >
+      <CardHeader className="gap-3">
+        <div className="space-y-1.5">
+          <CardTitle className="text-xl tracking-[-0.02em]">
+            Create your account
+          </CardTitle>
+          <CardDescription className="max-w-[34ch]">
+            Start generating decks from your study material and review them in a
+            focused workspace.
+          </CardDescription>
+        </div>
       </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
+
+      <CardContent className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <div className="space-y-2.5">
             <Label htmlFor="email">Email</Label>
-            <Input disabled={loading} id="email" {...register("email")} />
+            <Input
+              id="email"
+              type="email"
+              disabled={loading}
+              autoComplete="email"
+              placeholder="you@example.com"
+              {...register("email")}
+            />
             {errors.email && <FormError message={errors.email.message ?? ""} />}
           </div>
-          <div className="space-y-2">
+
+          <div className="space-y-2.5">
             <Label htmlFor="name">Name</Label>
-            <Input disabled={loading} id="name" {...register("name")} />
+            <Input
+              id="name"
+              disabled={loading}
+              autoComplete="name"
+              placeholder="Your name"
+              {...register("name")}
+            />
             {errors.name && <FormError message={errors.name.message ?? ""} />}
           </div>
-          <div className="space-y-2">
+
+          <div className="space-y-2.5">
             <Label htmlFor="password">Password</Label>
             <InputGroup>
               <InputGroupInput
                 id="password"
                 disabled={loading}
                 type={passwordVisible ? "text" : "password"}
+                autoComplete="new-password"
+                placeholder="Create a password"
                 {...register("password")}
               />
               <InputGroupAddon align="inline-end">
-                {passwordVisible ? (
-                  <EyeIcon onClick={() => setPasswordVisible(false)} />
-                ) : (
-                  <EyeOffIcon onClick={() => setPasswordVisible(true)} />
-                )}
+                <InputGroupButton
+                  type="button"
+                  variant="ghost"
+                  size="icon-xs"
+                  onClick={() => setPasswordVisible((prev) => !prev)}
+                  aria-label={
+                    passwordVisible ? "Hide password" : "Show password"
+                  }
+                >
+                  {passwordVisible ? <EyeClosed /> : <Eye />}
+                </InputGroupButton>
               </InputGroupAddon>
             </InputGroup>
             {errors.password && (
-              <FormError message={errors.password.message || ""} />
+              <FormError message={errors.password.message ?? ""} />
             )}
           </div>
 
-          <Button type="submit" size={"lg"} className="w-full">
-            Create account
-            <Send />
+          {formActionError && <FormError message={formActionError} />}
+
+          <Button disabled={loading} type="submit" size="lg" className="w-full">
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Creating account...
+              </>
+            ) : (
+              <>
+                Create account
+                <MoveRight />
+              </>
+            )}
           </Button>
         </form>
-        {formActionError && <FormError message={formActionError} />}
       </CardContent>
+
+      <CardFooter className="justify-center">
+        <p className="text-center text-sm text-muted-foreground">
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="font-medium text-primary transition-colors hover:text-primary/80"
+          >
+            Sign in
+          </Link>
+        </p>
+      </CardFooter>
     </Card>
   )
 }
