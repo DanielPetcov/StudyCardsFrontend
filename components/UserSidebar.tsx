@@ -34,6 +34,7 @@ export default function UserSidebar() {
               key={link.href}
               asChild
               variant={pathname.endsWith(link.href) ? "default" : "secondary"}
+              size={"lg"}
             >
               <Link href={link.href}>
                 <link.icon />
@@ -44,7 +45,7 @@ export default function UserSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <Button>
+        <Button size={"lg"}>
           <Plus />
           New Upload
         </Button>

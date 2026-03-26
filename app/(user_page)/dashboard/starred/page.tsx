@@ -1,3 +1,12 @@
+import PageTitle from "@/components/PageTitle"
+
 export default function StarredPage() {
-  return <div></div>
+  return (
+    <>
+      <PageTitle
+        title="Favorites"
+        description="Access your most important study materials."
+      />
+    </>
+  )
 }
