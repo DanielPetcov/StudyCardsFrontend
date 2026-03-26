@@ -13,7 +13,7 @@ import { LoginSchema } from "@/schemas/login.schema"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Button } from "@/components/ui/button"
-import { Eye, EyeClosed, Send } from "lucide-react"
+import { Eye, EyeClosed, Loader, Send } from "lucide-react"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import {
@@ -51,14 +51,20 @@ export default function LoginCard() {
   }
 
   const onSubmit: SubmitHandler<LoginSchema> = async (data) => {
-    const actionData = await LoginUser({
-      dto: data,
-      setLoading: setLoadingFunction,
-      setError: setFormActionErrorFunction,
-    })
+    try {
+      const actionData = await LoginUser({
+        dto: data,
+        setLoading: setLoadingFunction,
+        setError: setFormActionErrorFunction,
+      })
 
-    if (actionData) {
-      toast.success("succesfully submited")
+      if (actionData) {
+        toast.success("succesfully submited")
+      }
+    } catch (e) {
+      setFormActionError("A network error happend. Try again")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -106,10 +112,14 @@ export default function LoginCard() {
             )}
           </div>
 
-          <Button type="submit" className="w-full">
-            Login
-            <Send />
-          </Button>
+          {loading ? (
+            <Loader className="mx-auto animate-spin" />
+          ) : (
+            <Button disabled={loading} type="submit" className="w-full">
+              Login
+              <Send />
+            </Button>
+          )}
         </form>
         {formActionError && <FormError message={formActionError} />}
       </CardContent>
