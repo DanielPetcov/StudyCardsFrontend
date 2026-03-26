@@ -53,7 +53,6 @@ export default function Deck({ deck }: { deck: DeckDashboard }) {
 
   return (
     <Card
-      interactive={isReady}
       onClick={visitDeck}
       className={cn(
         "flex h-60 w-sm gap-0 transition-all",

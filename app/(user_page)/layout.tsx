@@ -9,9 +9,9 @@ export default function UserLayout({ children }: { children: ReactNode }) {
   return (
     <SidebarProvider>
       <UserSidebar />
-      <main className="flex flex-col">
+      <main className="flex min-w-0 flex-1 flex-col">
         <Header />
-        <div className="mt-15 p-5">{children}</div>
+        <div className="p-5">{children}</div>
         <Footer />
       </main>
     </SidebarProvider>

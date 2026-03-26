@@ -19,7 +19,6 @@ import {
   CardTitle,
   CardContent,
   CardFooter,
-  CardAction,
   CardDescription,
 } from "@/components/ui/card"
 import {
@@ -66,10 +65,7 @@ export default function RegisterCard() {
   }
 
   return (
-    <Card
-      interactive={false}
-      className="w-full max-w-md bg-surface-container-lowest/90 backdrop-blur-sm"
-    >
+    <Card className="w-full max-w-md">
       <CardHeader className="gap-3">
         <div className="space-y-1.5">
           <CardTitle className="text-xl tracking-[-0.02em]">

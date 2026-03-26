@@ -22,10 +22,10 @@ export default function UserSidebar() {
   const pathname = usePathname()
 
   return (
-    <Sidebar className="p-5">
+    <Sidebar className="bg-sidebar p-5">
       <SidebarHeader>
         <h2 className="-mb-2 text-lg font-bold">Library</h2>
-        <p className="text-sm text-on-surface-variant">AI-GENERATED</p>
+        <p className="text-on-surface-variant text-sm">AI-GENERATED</p>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup className="space-y-2">

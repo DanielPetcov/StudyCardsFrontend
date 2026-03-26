@@ -2,11 +2,13 @@
 
 import Link from "next/link"
 import { Button } from "./ui/button"
-import { Input } from "./ui/input"
-import { CircleUserRound, LogOut } from "lucide-react"
+import { CircleUserRound, LogOut, Search } from "lucide-react"
 
 import { SidebarTrigger } from "./ui/sidebar"
-import { InputGroup, InputGroupInput } from "./ui/input-group"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group"
+
+import { SignoutUser } from "@/actions/signout-user"
+import { useRouter } from "next/navigation"
 
 const headerLinks = [
   {
@@ -24,11 +26,21 @@ const headerLinks = [
 ]
 
 export default function Header() {
+  const router = useRouter()
+
+  const signOut = async () => {
+    await SignoutUser(onSuccess)
+  }
+
+  const onSuccess = () => {
+    router.push("/login")
+  }
+
   return (
-    <header className="fixed z-100 flex h-15 w-full items-center border-b border-border bg-background px-5">
-      <SidebarTrigger />
+    <header className="flex w-full items-center border-b px-5 py-4">
+      <SidebarTrigger className="mr-4" />
       <div className="text-2xl font-bold">StudyCards</div>
-      <div className="flex grow items-center justify-between">
+      <div className="mx-4 flex grow items-center justify-between">
         <div>
           {headerLinks.map((l) => (
             <Button key={l.href} asChild variant={"link"}>
@@ -37,13 +49,15 @@ export default function Header() {
           ))}
         </div>
         <InputGroup className="max-w-50">
-          <InputGroupInput className="max-w-50" />
+          <InputGroupAddon>
+            <Search />
+          </InputGroupAddon>
+          <InputGroupInput placeholder="Search..." />
         </InputGroup>
       </div>
       <div className="flex items-center gap-4">
-        <CircleUserRound className="text-foreground" />
-
-        <LogOut className="text-foreground" />
+        <CircleUserRound className="cursor-pointer" onClick={signOut} />
+        <LogOut />
       </div>
     </header>
   )
