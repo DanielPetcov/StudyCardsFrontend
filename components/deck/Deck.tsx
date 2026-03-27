@@ -12,7 +12,7 @@ import {
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Card, CardContent, CardFooter, CardHeader } from "../ui/card"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 
 const iconMap = {
   "book-open": BookOpen,
@@ -28,8 +28,6 @@ export default function Deck({ deck }: { deck: DeckDashboard }) {
   const isReady = deck.status === "ready"
   const Icon = iconMap[deck.icon]
 
-  console.log(isReady)
-
   const visitDeck = () => {
     if (!isReady) return
     router.push(`/deck/${deck.id}`)
@@ -39,7 +37,7 @@ export default function Deck({ deck }: { deck: DeckDashboard }) {
     deck.status === "ready"
       ? {
           dot: "bg-emerald-500 animate-[ping_2s_ease-in-out_infinite]",
-          badge: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
+          badge: "bg-e merald-500/10 text-emerald-700 dark:text-emerald-400",
         }
       : deck.status === "processing"
         ? {
@@ -55,16 +53,10 @@ export default function Deck({ deck }: { deck: DeckDashboard }) {
     <Card
       onClick={visitDeck}
       className={cn(
-        "flex h-60 w-sm gap-0 transition-all",
+        "flex h-60 w-sm gap-0 transition-shadow",
         isReady
-          ? "interactive-lift cursor-pointer"
-          : [
-              "cursor-default",
-              "bg-surface-container-low",
-              "opacity-80",
-              "saturate-50",
-              "shadow-none",
-            ]
+          ? "cursor-pointer shadow-sm hover:shadow-xl"
+          : ["cursor-default", "opacity-80", "saturate-50", "shadow-none"]
       )}
     >
       <CardHeader className="space-y-4">
@@ -73,8 +65,8 @@ export default function Deck({ deck }: { deck: DeckDashboard }) {
             className={cn(
               "rounded-md p-3",
               isReady
-                ? "bg-primary-fixed/20 text-primary"
-                : "bg-surface-container text-muted-foreground"
+                ? "bg-primary-foreground text-primary"
+                : "text-muted-foreground"
             )}
           >
             <Icon className="size-5" />
@@ -97,7 +89,7 @@ export default function Deck({ deck }: { deck: DeckDashboard }) {
           <h3
             className={cn(
               "line-clamp-2 text-xl font-semibold tracking-[-0.02em]",
-              isReady ? "text-on-surface" : "text-muted-foreground"
+              isReady ? "" : "text-muted-foreground"
             )}
           >
             {deck.title}
@@ -108,8 +100,6 @@ export default function Deck({ deck }: { deck: DeckDashboard }) {
           </p>
         </div>
       </CardHeader>
-
-      <CardContent className="flex-1" />
 
       <CardFooter className="mt-auto">
         <div className="flex w-full items-center justify-between gap-3 text-muted-foreground">

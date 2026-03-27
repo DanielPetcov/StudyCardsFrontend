@@ -70,3 +70,83 @@ export const deckDashboard: DeckDashboard[] = [
     icon: "archive",
   },
 ]
+
+export interface DeckRecently extends DeckSchemaType {
+  icon: DeckIconName
+  cardsStudied: number
+  lastTimeAccessed: Date
+}
+
+export const deckRecenlty: DeckRecently[] = [
+  {
+    id: "deck_1",
+    userId: "user_1",
+    title: "JavaScript Basics",
+    description:
+      "Fundamentals of JS including variables, functions, and loops.",
+    cardCount: 120,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-01-10"),
+
+    icon: "book-open",
+    cardsStudied: 45,
+    lastTimeAccessed: new Date("2026-03-25T08:42:15"),
+  },
+  {
+    id: "deck_2",
+    userId: "user_1",
+    title: "React Hooks",
+    description: "Understanding useState, useEffect, and custom hooks.",
+    cardCount: 80,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-02-15"),
+
+    icon: "brain",
+    cardsStudied: 60,
+    lastTimeAccessed: new Date("2026-03-26T14:27:53"),
+  },
+  {
+    id: "deck_3",
+    userId: "user_1",
+    title: "Databases",
+    description: "SQL, PostgreSQL, and basic data modeling.",
+    cardCount: 150,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-03-01"),
+
+    icon: "archive",
+    cardsStudied: 30,
+    lastTimeAccessed: new Date("2026-03-20T19:05:22"),
+  },
+  {
+    id: "deck_4",
+    userId: "user_1",
+    title: "CSS Advanced",
+    description: "Flexbox, Grid, and responsive design techniques.",
+    cardCount: 95,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-04-12"),
+
+    icon: "star",
+    cardsStudied: 70,
+    lastTimeAccessed: new Date("2026-03-27T11:58:39"),
+  },
+  {
+    id: "deck_5",
+    userId: "user_1",
+    title: "Algorithms",
+    description: "Sorting, searching, and complexity analysis.",
+    cardCount: 200,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-05-20"),
+
+    icon: "clock",
+    cardsStudied: 200,
+    lastTimeAccessed: new Date("2026-03-22T22:13:07"),
+  },
+]
