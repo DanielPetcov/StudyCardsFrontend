@@ -79,7 +79,7 @@ export const deckDashboard: Deck[] = [
 ]
 
 // recently deck
-export interface DeckRecently extends Deck, DeckSchemaType {
+export interface DeckRecently extends Deck {
   lastTimeAccessed: Date
 }
 
@@ -158,7 +158,7 @@ export const deckRecenlty: DeckRecently[] = [
 ]
 
 // stared deck
-export interface DeckStared extends Deck, DeckSchemaType {
+export interface DeckStared extends Deck {
   starred: boolean
 }
 
@@ -232,5 +232,89 @@ export const deckStarred: DeckStared[] = [
     icon: "clock",
     cardsStudied: 25,
     starred: true,
+  },
+]
+
+// archived deck
+export interface DeckArchived extends Deck {
+  archived: boolean
+  archivedTime: Date
+}
+
+export const deckArchived: DeckArchived[] = [
+  {
+    id: "deck_a1",
+    userId: "user_1",
+    title: "HTML Basics",
+    description: "Structure of web pages, tags, and semantic HTML.",
+    cardCount: 60,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2024-11-15"),
+
+    icon: "book-open",
+    cardsStudied: 60,
+    archived: true,
+    archivedTime: new Date("2026-03-25T08:42:15"),
+  },
+  {
+    id: "deck_a2",
+    userId: "user_1",
+    title: "CSS Fundamentals",
+    description: "Selectors, box model, and basic layouts.",
+    cardCount: 85,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2024-12-05"),
+
+    icon: "star",
+    cardsStudied: 85,
+    archived: true,
+    archivedTime: new Date("2026-03-25T08:42:15"),
+  },
+  {
+    id: "deck_a3",
+    userId: "user_1",
+    title: "Git & GitHub",
+    description: "Version control, branching, and collaboration.",
+    cardCount: 70,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-01-08"),
+
+    icon: "archive",
+    cardsStudied: 40,
+    archived: true,
+    archivedTime: new Date("2026-03-25T08:42:15"),
+  },
+  {
+    id: "deck_a4",
+    userId: "user_1",
+    title: "REST APIs",
+    description: "HTTP methods, status codes, and API design.",
+    cardCount: 100,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-02-18"),
+
+    icon: "brain",
+    cardsStudied: 100,
+    archived: true,
+    archivedTime: new Date("2026-03-25T08:42:15"),
+  },
+  {
+    id: "deck_a5",
+    userId: "user_1",
+    title: "Authentication",
+    description: "JWT, sessions, OAuth basics.",
+    cardCount: 90,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-03-10"),
+
+    icon: "clock",
+    cardsStudied: 55,
+    archived: true,
+    archivedTime: new Date("2026-03-25T08:42:15"),
   },
 ]

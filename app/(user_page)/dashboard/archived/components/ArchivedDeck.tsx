@@ -1,4 +1,8 @@
-import { cn } from "@/lib/utils"
+import { DeckArchived } from "@/constants/deck"
+
+interface ArchivedDeckProps {
+  deck: DeckArchived
+}
 
 import {
   Archive,
@@ -6,13 +10,15 @@ import {
   Brain,
   Clock,
   GalleryHorizontalEnd,
+  History,
   Star,
 } from "lucide-react"
 
 import { Card, CardHeader, CardFooter, CardAction } from "@/components/ui/card"
-import { DeckStared } from "@/constants/deck"
 import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
+
+import { formatDistanceToNow } from "date-fns"
+import { Badge } from "@/components/ui/badge"
 
 const iconMap = {
   "book-open": BookOpen,
@@ -22,16 +28,14 @@ const iconMap = {
   archive: Archive,
 } as const
 
-export default function StaredCard({ deck }: { deck: DeckStared }) {
+export default function ArchivedDeck({ deck }: ArchivedDeckProps) {
   const Icon = iconMap[deck.icon]
-  const progressValue = parseFloat(
-    ((deck.cardsStudied / deck.cardCount) * 100).toPrecision(2)
-  )
+  const archivedTime = formatDistanceToNow(deck.archivedTime, {
+    addSuffix: true,
+  })
 
   return (
-    <Card
-      className={cn("flex min-h-60 w-sm gap-5 shadow-sm transition-shadow")}
-    >
+    <Card className="flex min-h-60 w-sm gap-5 shadow-sm transition-shadow">
       <CardHeader className="space-y-4">
         <div className="flex items-start justify-between gap-3">
           <div className={"rounded-md bg-primary-foreground p-3 text-primary"}>
@@ -52,30 +56,24 @@ export default function StaredCard({ deck }: { deck: DeckStared }) {
           </p>
         </div>
         <CardAction>
-          <Button
-            asChild
-            variant={"ghost"}
-            size={"icon"}
-            className="cursor-pointer hover:bg-transparent"
-          >
-            <Star
-              className={cn(
-                deck.starred &&
-                  "fill-yellow-500 text-yellow-500 hover:text-yellow-600"
-              )}
-            />
-          </Button>
+          <Badge>Accessed {archivedTime}</Badge>
         </CardAction>
       </CardHeader>
       <CardFooter className="mt-auto flex items-center justify-between">
         <div className="flex items-center gap-1 text-muted-foreground">
           <GalleryHorizontalEnd className="size-4" />
-          <div className="text-xs">{deck.cardCount} Cards</div>
+          <p className="text-xs">{deck.cardCount} cards</p>
         </div>
-        <div className="flex items-center gap-1">
-          <Progress value={progressValue} className="w-25" />
-          <div className="text-muted-foreground">{progressValue}%</div>
-        </div>
+        <Button
+          asChild
+          variant={"ghost"}
+          className="cursor-pointer hover:bg-transparent"
+        >
+          <div className="flex items-center gap-1">
+            <History className="size-4" />
+            <p className="font-semibold">Restore</p>
+          </div>
+        </Button>
       </CardFooter>
     </Card>
   )
