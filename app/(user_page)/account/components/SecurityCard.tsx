@@ -1,38 +1,68 @@
 "use client"
+import { useEffect, useState } from "react"
 
-import { Eye, EyeClosed, Lock } from "lucide-react"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { Eye, EyeClosed, Loader2, Lock } from "lucide-react"
 
-import SettingsCardTitle from "./SettingsCardTitle"
-
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
 } from "@/components/ui/input-group"
-import { Label } from "@/components/ui/label"
-import { SubmitHandler, useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
 
-import { ChangePasswordSchema } from "@/schemas/changePassword.schema"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
 import FormError from "@/components/FormError"
+import SettingsCardTitle from "./SettingsCardTitle"
+import { ChangePasswordSchema } from "@/schemas/changePassword.schema"
+
+import { ChangePassword } from "@/actions/change-password"
+import { toast } from "sonner"
 
 export default function SecurityCard() {
   const [passwordVisible, setPasswordVisible] = useState(false)
+  const [apiError, setApiError] = useState<null | string>(null)
+  const [loading, setLoading] = useState(false)
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(ChangePasswordSchema),
+    defaultValues: {
+      currentPassword: "",
+      newPassword: "",
+    },
   })
 
+  const currentPassword = watch("currentPassword")
+  const newPassword = watch("newPassword")
+
+  useEffect(() => {
+    if (apiError) {
+      setApiError(null)
+    }
+  }, [currentPassword, newPassword])
+
   const onSubmit: SubmitHandler<ChangePasswordSchema> = async (data) => {
-    console.log(data)
+    setApiError(null)
+    setLoading(true)
+
+    const error = await ChangePassword(data.currentPassword, data.newPassword)
+
+    if (error) {
+      setApiError(error)
+    } else {
+      toast.success("Password changed")
+      reset()
+    }
+
+    setLoading(false)
   }
 
   return (
@@ -49,6 +79,7 @@ export default function SecurityCard() {
               Current password
             </Label>
             <Input
+              disabled={loading}
               id="currentPassword"
               type="password"
               {...register("currentPassword")}
@@ -70,6 +101,7 @@ export default function SecurityCard() {
                 )}
               </InputGroupAddon>
               <InputGroupInput
+                disabled={loading}
                 id="newPassword"
                 type={passwordVisible ? "text" : "password"}
                 {...register("newPassword")}
@@ -79,8 +111,16 @@ export default function SecurityCard() {
               <FormError message={errors.newPassword.message ?? ""} />
             )}
           </div>
-          <Button type="submit" className="w-full">
-            Change
+          {apiError && <FormError message={apiError} />}
+          <Button disabled={loading} type="submit" className="w-full">
+            {loading ? (
+              <>
+                <Loader2 className="animate-spin" />
+                Changing...
+              </>
+            ) : (
+              <p>Change</p>
+            )}
           </Button>
         </form>
       </CardContent>
