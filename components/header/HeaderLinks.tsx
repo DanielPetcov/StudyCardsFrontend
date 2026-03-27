@@ -20,11 +20,11 @@ const headerLinks = [
   },
 ]
 
-export default function HeaderLinks() {
+export default function HeaderLinks({ className }: { className?: string }) {
   const pathname = usePathname()
 
   return (
-    <div>
+    <div className={className}>
       {headerLinks.map((l) => (
         <Button key={l.href} asChild variant={"link"}>
           <Link

@@ -1,6 +1,6 @@
 "use client"
 
-import { DeckDashboard } from "@/constants/deck"
+import { Deck as DeckType } from "@/constants/deck"
 import { useRouter } from "next/navigation"
 import {
   Archive,
@@ -22,7 +22,7 @@ const iconMap = {
   archive: Archive,
 } as const
 
-export default function Deck({ deck }: { deck: DeckDashboard }) {
+export default function Deck({ deck }: { deck: DeckType }) {
   const router = useRouter()
 
   const isReady = deck.status === "ready"

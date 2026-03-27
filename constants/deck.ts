@@ -10,10 +10,12 @@ export const deckIconNames = [
 
 export type DeckIconName = (typeof deckIconNames)[number]
 
-export interface DeckDashboard extends DeckSchemaType {
+// dashboard deck
+export interface Deck extends DeckSchemaType {
   icon: DeckIconName
+  cardsStudied: number
 }
-export const deckDashboard: DeckDashboard[] = [
+export const deckDashboard: Deck[] = [
   {
     id: "deck-1",
     userId: "user-1",
@@ -24,6 +26,7 @@ export const deckDashboard: DeckDashboard[] = [
     status: "ready",
     createdAt: new Date("2026-03-01"),
     icon: "book-open",
+    cardsStudied: 20,
   },
   {
     id: "deck-2",
@@ -35,6 +38,7 @@ export const deckDashboard: DeckDashboard[] = [
     status: "ready",
     createdAt: new Date("2026-03-05"),
     icon: "brain",
+    cardsStudied: 30,
   },
   {
     id: "deck-3",
@@ -46,6 +50,7 @@ export const deckDashboard: DeckDashboard[] = [
     status: "processing",
     createdAt: new Date("2026-03-10"),
     icon: "clock",
+    cardsStudied: 28,
   },
   {
     id: "deck-4",
@@ -57,6 +62,7 @@ export const deckDashboard: DeckDashboard[] = [
     status: "ready",
     createdAt: new Date("2026-03-15"),
     icon: "star",
+    cardsStudied: 45,
   },
   {
     id: "deck-5",
@@ -68,12 +74,12 @@ export const deckDashboard: DeckDashboard[] = [
     status: "failed",
     createdAt: new Date("2026-03-20"),
     icon: "archive",
+    cardsStudied: 5,
   },
 ]
 
-export interface DeckRecently extends DeckSchemaType {
-  icon: DeckIconName
-  cardsStudied: number
+// recently deck
+export interface DeckRecently extends Deck, DeckSchemaType {
   lastTimeAccessed: Date
 }
 
@@ -148,5 +154,83 @@ export const deckRecenlty: DeckRecently[] = [
     icon: "clock",
     cardsStudied: 200,
     lastTimeAccessed: new Date("2026-03-22T22:13:07"),
+  },
+]
+
+// stared deck
+export interface DeckStared extends Deck, DeckSchemaType {
+  starred: boolean
+}
+
+export const deckStarred: DeckStared[] = [
+  {
+    id: "deck_s1",
+    userId: "user_1",
+    title: "TypeScript Essentials",
+    description: "Types, interfaces, generics, and best practices.",
+    cardCount: 110,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-01-20"),
+
+    icon: "book-open",
+    cardsStudied: 80,
+    starred: true,
+  },
+  {
+    id: "deck_s2",
+    userId: "user_1",
+    title: "Node.js Fundamentals",
+    description: "Event loop, streams, and backend basics.",
+    cardCount: 95,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-02-10"),
+
+    icon: "brain",
+    cardsStudied: 50,
+    starred: true,
+  },
+  {
+    id: "deck_s3",
+    userId: "user_1",
+    title: "System Design",
+    description: "Scalability, load balancing, and architecture patterns.",
+    cardCount: 140,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-03-05"),
+
+    icon: "archive",
+    cardsStudied: 65,
+    starred: true,
+  },
+  {
+    id: "deck_s4",
+    userId: "user_1",
+    title: "Next.js Deep Dive",
+    description: "SSR, SSG, routing, and performance optimization.",
+    cardCount: 120,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-03-25"),
+
+    icon: "star",
+    cardsStudied: 90,
+    starred: true,
+  },
+  {
+    id: "deck_s5",
+    userId: "user_1",
+    title: "Docker Basics",
+    description: "Containers, images, and deployment workflows.",
+    cardCount: 70,
+    language: "en",
+    status: "ready",
+    createdAt: new Date("2025-04-10"),
+
+    icon: "clock",
+    cardsStudied: 25,
+    starred: true,
   },
 ]

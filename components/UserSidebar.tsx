@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import { sidebarLinks } from "@/constants/sidebar-links"
+import { sidebarHeaderLinks, sidebarLinks } from "@/constants/sidebar-links"
 
 import {
   Sidebar,
@@ -27,7 +27,7 @@ export default function UserSidebar() {
         <h2 className="-mb-2 text-lg font-bold">Library</h2>
         <p className="text-on-surface-variant text-sm">AI-GENERATED</p>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="space-y-5">
         <SidebarGroup className="space-y-2">
           {sidebarLinks.map((link) => (
             <Button
@@ -38,6 +38,19 @@ export default function UserSidebar() {
             >
               <Link href={link.href}>
                 <link.icon />
+                {link.label}
+              </Link>
+            </Button>
+          ))}
+        </SidebarGroup>
+        <Separator className="lg:hidden" />
+        <SidebarGroup className="space-y-2 lg:hidden">
+          {sidebarHeaderLinks.map((link) => (
+            <Button variant={"link"} key={link.href} asChild size={"lg"}>
+              <Link
+                className={pathname.includes(link.href) ? "underline" : ""}
+                href={link.href}
+              >
                 {link.label}
               </Link>
             </Button>
