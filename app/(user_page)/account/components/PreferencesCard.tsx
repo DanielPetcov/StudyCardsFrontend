@@ -4,7 +4,7 @@ import { Check, ChevronsUpDown, Settings } from "lucide-react"
 import SettingsCardTitle from "./SettingsCardTitle"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-import { languagesEnum } from "@/schemas/enums"
+import { languagesEnum } from "@/types/enums"
 import { useState } from "react"
 import {
   Popover,

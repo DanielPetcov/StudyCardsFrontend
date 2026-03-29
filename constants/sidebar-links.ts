@@ -1,15 +1,6 @@
 import { History, Star, Archive, FileStack, LucideIcon } from "lucide-react"
 
-interface SidebarLink {
-  label: string
-  href: string
-  icon: LucideIcon
-}
-
-interface SidebarHeaderLink {
-  label: string
-  href: string
-}
+import { SidebarLink, SidebarHeaderLink } from "@/types"
 
 export const sidebarLinks: SidebarLink[] = [
   {

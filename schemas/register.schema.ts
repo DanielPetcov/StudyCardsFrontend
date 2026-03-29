@@ -1,9 +1,9 @@
-import z, { email, string } from "zod"
+import z from "zod"
 
 export const RegisterSchema = z.object({
-  email: email().nonempty(),
-  password: string().min(8).max(128),
-  name: string().nonempty(),
+  email: z.email().nonempty(),
+  password: z.string().min(8).max(128),
+  name: z.string().nonempty(),
 })
 
 export type RegisterSchema = z.infer<typeof RegisterSchema>

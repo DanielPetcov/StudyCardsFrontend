@@ -1,10 +1,22 @@
-import { deckDashboard } from "@/constants/deck"
+"use client"
 
-import Deck from "@/components/deck/Deck"
 import AddDeckInputBlock from "@/components/deck/AddDeckInputBlock"
 import PageTitle from "@/components/PageTitle"
 
+import Deck from "@/components/deck/Deck"
+import { useDecks } from "@/hooks/useDecks"
+
 export default function DashboardPage() {
+  const { data, isLoading, isError } = useDecks()
+
+  if (isLoading) {
+    return <div>is loading</div>
+  }
+
+  if (isError) {
+    return <div>there is an error</div>
+  }
+
   return (
     <>
       <PageTitle
@@ -14,9 +26,11 @@ export default function DashboardPage() {
       />
 
       <div className="flex flex-wrap gap-5">
-        {deckDashboard.map((d) => (
-          <Deck key={d.id} deck={d} />
-        ))}
+        {data ? (
+          data.map((d) => <Deck key={d.id} deck={d} />)
+        ) : (
+          <div>currently there are no decks</div>
+        )}
         <AddDeckInputBlock />
       </div>
     </>

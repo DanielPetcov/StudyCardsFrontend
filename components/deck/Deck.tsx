@@ -1,26 +1,14 @@
 "use client"
 
-import { Deck as DeckType } from "@/constants/deck"
+import type { Deck as DeckType } from "@/types"
+
 import { useRouter } from "next/navigation"
-import {
-  Archive,
-  BookOpen,
-  Brain,
-  Clock,
-  GalleryHorizontalEnd,
-  Star,
-} from "lucide-react"
+import { GalleryHorizontalEnd } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Card, CardFooter, CardHeader } from "@/components/ui/card"
 
-const iconMap = {
-  "book-open": BookOpen,
-  brain: Brain,
-  clock: Clock,
-  star: Star,
-  archive: Archive,
-} as const
+import { iconMap } from "@/constants/icon-map"
 
 export default function Deck({ deck }: { deck: DeckType }) {
   const router = useRouter()
@@ -30,7 +18,7 @@ export default function Deck({ deck }: { deck: DeckType }) {
 
   const visitDeck = () => {
     if (!isReady) return
-    router.push(`/deck/${deck.id}`)
+    router.push(`/decks/${deck.id}`)
   }
 
   const statusStyles =

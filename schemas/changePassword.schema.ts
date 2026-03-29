@@ -1,8 +1,8 @@
-import z, { email, string } from "zod"
+import z from "zod"
 
 export const ChangePasswordSchema = z.object({
-  currentPassword: string().min(8).max(128),
-  newPassword: string().min(8).max(128),
+  currentPassword: z.string().min(8).max(128),
+  newPassword: z.string().min(8).max(128),
 })
 
 export type ChangePasswordSchema = z.infer<typeof ChangePasswordSchema>

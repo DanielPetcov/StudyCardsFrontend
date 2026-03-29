@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState } from "react"
-import { CloudUploadIcon, FileText, X } from "lucide-react"
+import { Check, CloudUploadIcon, FileText, X } from "lucide-react"
 
 import {
   Empty,
@@ -11,6 +11,8 @@ import {
   EmptyDescription,
 } from "../ui/empty"
 import { cn } from "@/lib/utils"
+import { Button } from "../ui/button"
+import { useUploadDeck } from "@/hooks/useUploadDeck"
 
 type UploadedMaterial = {
   file: File
@@ -18,6 +20,7 @@ type UploadedMaterial = {
 }
 
 export default function AddDeckInputBlock() {
+  const { mutate } = useUploadDeck()
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   const [isDragging, setIsDragging] = useState(false)
@@ -26,7 +29,7 @@ export default function AddDeckInputBlock() {
   const [error, setError] = useState<string | null>(null)
 
   const maxSizeInBytes = 50 * 1024 * 1024
-  const acceptedExtensions = [".pdf", ".docx", ".txt"]
+  const acceptedExtensions = [".pdf"]
 
   const openFilePicker = () => {
     inputRef.current?.click()
@@ -47,7 +50,7 @@ export default function AddDeckInputBlock() {
     )
 
     if (!hasValidExtension) {
-      return "Only PDF, DOCX, or TXT files are allowed."
+      return "Only PDF files are allowed."
     }
 
     if (file.size > maxSizeInBytes) {
@@ -82,6 +85,13 @@ export default function AddDeckInputBlock() {
     } catch {
       setError("Failed to read the file. Try again.")
       setUploadedMaterial(null)
+    }
+  }
+
+  const handleUpload = async () => {
+    if (uploadedMaterial) {
+      mutate(uploadedMaterial.file)
+      resetFile()
     }
   }
 
@@ -139,7 +149,7 @@ export default function AddDeckInputBlock() {
           "rounded-lg",
           isDragging
             ? "border-primary bg-primary/5"
-            : "border-border hover:border-primary/50 hover:bg-surface-container-low"
+            : "hover:bg-surface-container-low border-border hover:border-primary/50"
         )}
       >
         <EmptyHeader className="gap-3">
@@ -170,21 +180,35 @@ export default function AddDeckInputBlock() {
                 loaded into memory
               </EmptyDescription>
 
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  resetFile()
-                }}
-                className="mx-auto mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
-              >
-                <X className="size-3" />
-                Remove file
-              </button>
+              <div className="flex items-center gap-1">
+                <Button
+                  size={"xs"}
+                  variant={"secondary"}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    resetFile()
+                  }}
+                  className="flex w-fit items-center hover:bg-red-500 hover:text-white"
+                >
+                  <X className="size-3" />
+                  Remove file
+                </Button>
+                <Button
+                  size={"xs"}
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    await handleUpload()
+                  }}
+                  className="hover:bg-green-500"
+                >
+                  <Check className="size-3" />
+                  Upload
+                </Button>
+              </div>
             </div>
           ) : (
             <EmptyDescription className="text-xs">
-              PDF, DOCX, or TXT (Max 50MB)
+              PDF (Max 50MB)
               <br />
               Click to choose or drag and drop
             </EmptyDescription>
