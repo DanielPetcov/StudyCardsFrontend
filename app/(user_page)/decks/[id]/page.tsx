@@ -4,9 +4,10 @@ import StudyCard from "@/components/study/StudyCard"
 import { useCards } from "@/hooks/useCards"
 import { useStudySession } from "@/stores/study-session.store"
 import { useParams } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
-import { Progress } from "@/components/ui/progress"
+import StudyCardsMenu from "@/components/study/StudyCardsMenu"
+import StudyProgressBar from "@/components/study/ProgressBar"
 
 export default function DeckPage() {
   const params = useParams()
@@ -16,12 +17,14 @@ export default function DeckPage() {
 
   const session = useStudySession((state) => state.getSession(deckId))
   const setCurrentCard = useStudySession((state) => state.setCurrentCard)
-  const currentIndex = session?.currentCardIndex ?? 0
+
+  const [currentIndex, setCurrentIndex] = useState(
+    session?.currentCardIndex ?? 0
+  )
 
   useEffect(() => {
     if (session && session.currentCardIndex > 0) {
-      // Show modal: "Continue from card X?"
-      // (implement this with a dialog component)
+      setCurrentIndex(session.currentCardIndex)
     }
   }, [session])
 
@@ -43,22 +46,34 @@ export default function DeckPage() {
     }
   }
 
-  const progressValue = parseInt(
-    (((currentIndex + 1) / cards.length) * 100).toPrecision(2)
-  )
+  const changeCurrentCard = (cardOrder: number) => {
+    setCurrentCard(deckId, cardOrder)
+    setCurrentIndex(cardOrder)
+  }
 
   return (
-    <div className="container mx-auto max-w-4xl p-6">
-      <Progress value={progressValue} className="mb-4" />
-
-      <StudyCard
-        card={currentCard}
-        totalCards={cards.length}
-        onNext={handleNext}
-        onPrevious={handlePrevious}
-        isFirst={currentIndex === 0}
-        isLast={isLastCard}
+    <div className="container mx-auto grid max-w-4xl grid-cols-[auto_1fr] gap-4 p-6">
+      <StudyCardsMenu
+        cards={cards}
+        currentCard={currentCard}
+        changeCurrentCard={changeCurrentCard}
       />
+      <div>
+        <StudyProgressBar
+          currentIndex={currentIndex}
+          cardsLength={cards.length}
+          className="mb-4"
+        />
+
+        <StudyCard
+          card={currentCard}
+          totalCards={cards.length}
+          onNext={handleNext}
+          onPrevious={handlePrevious}
+          isFirst={currentIndex === 0}
+          isLast={isLastCard}
+        />
+      </div>
     </div>
   )
 }

@@ -1,24 +1,20 @@
 // components/study/StudyCard.tsx
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card as CardType } from "@/types/card"
 import { useStudySession } from "@/stores/study-session.store"
-
-import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card"
-
-import {
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldLabel,
-  FieldTitle,
-} from "@/components/ui/field"
 import { Separator } from "../ui/separator"
 import { Button } from "../ui/button"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, CheckCircle2, XCircle } from "lucide-react"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import z from "zod"
+import FormError from "../FormError"
+import { cn } from "@/lib/utils"
+import { useParams } from "next/navigation"
 
 interface StudyCardProps {
   card: CardType
@@ -29,11 +25,11 @@ interface StudyCardProps {
   isLast: boolean
 }
 
-const options = [
-  "Consumers anticipate future tax increases to pay off the debt, increasing their savings and neutralizing the stimulus effect.",
-  "Deficit spending leads to a direct increase in interest rates, which crowds out private investment completely.",
-  "The increase in government spending shifts the IS curve to the right, causing a permanent increase in equilibrium output.",
-]
+const CardTestSchema = z.object({
+  optionId: z.string().min(1, "You must select an option"),
+})
+
+type CardTestFormData = z.infer<typeof CardTestSchema>
 
 export default function StudyCard({
   card,
@@ -43,66 +39,277 @@ export default function StudyCard({
   isFirst,
   isLast,
 }: StudyCardProps) {
-  const [showAnswer, setShowAnswer] = useState(false)
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    clearErrors,
+  } = useForm<CardTestFormData>({
+    resolver: zodResolver(CardTestSchema),
+    defaultValues: {
+      optionId: "",
+    },
+  })
+
+  const params = useParams()
+  const deckId = params.id as string
+
+  const cardAnswer = useStudySession((state) =>
+    state.getCardAnswer(deckId, card.id)
+  )
+  const isAlreadyAnswered = useStudySession((state) =>
+    state.isCardAnswered(deckId, card.id)
+  )
+
+  const [isAnswered, setIsAnswered] = useState(isAlreadyAnswered)
+  const [selectedOptionId, setSelectedOptionId] = useState<string | null>(
+    isAlreadyAnswered
+      ? card.options.find(
+          (o) => o.isCorrect === (cardAnswer?.isCorrect === true)
+        )?.id || null
+      : null
+  )
+
+  useEffect(() => {
+    if (isAlreadyAnswered && cardAnswer) {
+      setIsAnswered(true)
+
+      const selectedOption =
+        cardAnswer.isCorrect === true
+          ? card.options.find((o) => o.isCorrect === true)
+          : card.options.find((o) => o.isCorrect === false)
+    } else {
+      setIsAnswered(false)
+      setSelectedOptionId(null)
+    }
+  }, [card.id, isAlreadyAnswered, cardAnswer, card.options])
+
   const answerCard = useStudySession((state) => state.answerCard)
 
-  const handleAnswer = (correct: boolean) => {
-    answerCard(card.deckId, card.id, correct)
-    setShowAnswer(false)
+  const correctOption = card.options.find((o) => o.isCorrect === true)
+  const selectedOption = card.options.find((o) => o.id === selectedOptionId)
+  const isCorrect = selectedOption?.isCorrect === true
+
+  const onSubmit: SubmitHandler<CardTestFormData> = (data) => {
+    setSelectedOptionId(data.optionId)
+    setIsAnswered(true)
+
+    const chosen = card.options.find((o) => o.id === data.optionId)
+    if (!chosen) return
+    answerCard(deckId, card.id, chosen.id, chosen?.isCorrect)
+  }
+
+  const handleNextCard = () => {
+    clearErrors()
     onNext()
   }
 
+  const handlePreviousCard = () => {
+    clearErrors()
+    onPrevious()
+  }
+
+  const getOptionStyle = (optionId: string, isCorrectOption: boolean) => {
+    if (!isAnswered) return ""
+
+    if (isCorrectOption) {
+      return "border-green-500 bg-green-50 dark:bg-green-950/20"
+    }
+
+    if (optionId === selectedOptionId && !isCorrectOption) {
+      return "border-red-500 bg-red-50 dark:bg-red-950/20"
+    }
+
+    return "opacity-50"
+  }
+
   return (
-    <Card className="card min-h-100 shadow-md">
-      <CardHeader className="p-5">
-        <p className="text-3xl font-semibold">{card.question}</p>
-      </CardHeader>
-      <CardContent className="p-5 pb-0">
-        <RadioGroup className="space-y-4">
-          {options.map((option, index) => (
-            <FieldLabel htmlFor={`option-${index}`} key={index} className="p-2">
-              <Field orientation={"horizontal"}>
-                <FieldContent>
-                  <FieldTitle>{option}</FieldTitle>
-                </FieldContent>
+    <Card className="flex min-h-150 flex-col shadow-md">
+      <CardHeader className="flex flex-col justify-between p-6 pt-2">
+        {/* Difficulty Badge */}
+        <div className="mb-4 flex w-full items-center justify-between">
+          <span
+            className={cn(
+              "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium",
+              {
+                "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400":
+                  card.difficulty === "easy",
+                "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400":
+                  card.difficulty === "medium",
+                "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400":
+                  card.difficulty === "hard",
+              }
+            )}
+          >
+            {card.difficulty.toUpperCase()}
+          </span>
 
-                <RadioGroupItem value={option} id={`option-${index}`} />
-              </Field>
-            </FieldLabel>
-          ))}
-        </RadioGroup>
-
-        <Separator className="my-15" />
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-5 text-muted-foreground">
-            <Button
-              asChild
-              variant={"ghost"}
-              size={"icon-sm"}
-              className="cursor-pointer hover:bg-transparent"
-              onClick={onPrevious}
-            >
-              <ChevronLeft />
-            </Button>
-            <div className="text-xs uppercase">
-              card {card.order + 1} of {totalCards}
-            </div>
-            <Button
-              asChild
-              variant={"ghost"}
-              size={"icon-sm"}
-              className="cursor-pointer hover:bg-transparent"
-              onClick={onNext}
-            >
-              <ChevronRight />
-            </Button>
-          </div>
-          <Button size={"lg"}>Check Answer</Button>
+          <span className="text-sm text-muted-foreground">
+            {card.order + 1} / {totalCards}
+          </span>
         </div>
+
+        {/* Question */}
+        <h2 className="line-clamp-3 overflow-y-auto text-2xl leading-tight font-semibold">
+          {card.question}
+        </h2>
+      </CardHeader>
+
+      <CardContent className="flex flex-1 flex-col p-6 py-2">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-1 flex-col"
+        >
+          {/* Options */}
+          <Controller
+            name="optionId"
+            control={control}
+            render={({ field }) => (
+              <RadioGroup
+                value={field.value}
+                onValueChange={(v) => {
+                  if (!isAnswered) {
+                    field.onChange(v)
+                    clearErrors()
+                  }
+                }}
+                className="mb-6 space-y-3"
+                disabled={isAnswered}
+              >
+                {card.options.map((option) => {
+                  const isThisCorrect = option.isCorrect
+                  const isSelected = selectedOptionId === option.id
+
+                  return (
+                    <label
+                      key={option.id}
+                      className={cn(
+                        "flex cursor-pointer items-start gap-4 rounded-lg border-2 p-4 transition-all",
+                        "hover:border-primary/50",
+                        getOptionStyle(option.id, isThisCorrect),
+                        isAnswered && "cursor-not-allowed"
+                      )}
+                    >
+                      <RadioGroupItem
+                        value={option.id}
+                        id={option.id}
+                        disabled={isAnswered}
+                        className="mt-0.5"
+                      />
+
+                      <div className="flex flex-1 items-start justify-between gap-3">
+                        <span className="text-sm leading-relaxed">
+                          {option.text}
+                        </span>
+
+                        {/* Show icons after answering */}
+                        {isAnswered && isThisCorrect && (
+                          <CheckCircle2 className="h-5 w-5 shrink-0 text-green-600" />
+                        )}
+                        {isAnswered && isSelected && !isThisCorrect && (
+                          <XCircle className="h-5 w-5 shrink-0 text-red-600" />
+                        )}
+                      </div>
+                    </label>
+                  )
+                })}
+              </RadioGroup>
+            )}
+          />
+
+          {/* Error message */}
+          {errors.optionId && (
+            <FormError
+              message={errors.optionId.message || ""}
+              className="mb-4"
+            />
+          )}
+
+          {/* Explanation section */}
+          <div className="mt-auto">
+            <Separator className="mb-6" />
+
+            {!isAnswered ? (
+              <div className="rounded-lg border-2 border-dashed border-muted p-6 text-center">
+                <p className="text-sm text-muted-foreground">
+                  Select an answer to see the explanation
+                </p>
+              </div>
+            ) : (
+              <div
+                className={cn(
+                  "rounded-lg border-2 p-6",
+                  isCorrect
+                    ? "border-green-200 bg-green-50 dark:border-green-900 dark:bg-green-950/20"
+                    : "border-red-200 bg-red-50 dark:border-red-900 dark:bg-red-950/20"
+                )}
+              >
+                {/* Result header */}
+                <div className="mb-3 flex items-center gap-2">
+                  {isCorrect ? (
+                    <>
+                      <CheckCircle2 className="h-5 w-5 text-green-600" />
+                      <span className="font-semibold text-green-900 dark:text-green-100">
+                        Correct!
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <XCircle className="h-5 w-5 text-red-600" />
+                      <span className="font-semibold text-red-900 dark:text-red-100">
+                        Incorrect
+                      </span>
+                    </>
+                  )}
+                </div>
+
+                {/* Explanation */}
+                <p className="text-sm leading-relaxed text-foreground/90">
+                  {correctOption?.explanation}
+                </p>
+              </div>
+            )}
+          </div>
+        </form>
       </CardContent>
-      <CardFooter className="mt-auto">
-        Correct answer will be here ...
+
+      <CardFooter className="flex items-center justify-between border-t p-6">
+        {/* Navigation buttons */}
+        <Button
+          variant="outline"
+          size="default"
+          onClick={handlePreviousCard}
+          disabled={isFirst}
+        >
+          <ChevronLeft className="mr-1 h-4 w-4" />
+          Previous
+        </Button>
+
+        {!isAnswered ? (
+          <Button size="lg" onClick={handleSubmit(onSubmit)} className="px-8">
+            Check Answer
+          </Button>
+        ) : (
+          <Button
+            size="lg"
+            onClick={handleNextCard}
+            disabled={isLast}
+            className="px-8"
+          >
+            {isLast ? "Finish" : "Next Card"}
+            {!isLast && <ChevronRight className="ml-1 h-4 w-4" />}
+          </Button>
+        )}
+
+        <Button
+          variant="outline"
+          size="default"
+          onClick={handleNextCard}
+          disabled={isLast}
+        >
+          Next
+          <ChevronRight className="ml-1 h-4 w-4" />
+        </Button>
       </CardFooter>
     </Card>
   )

@@ -15,10 +15,10 @@ export function useCards(deckId: string) {
       if (!res.ok) throw new Error("Failed to fetch cards")
 
       const data = await res.json()
+      if (data) console.log("there is data", data)
 
       return z.array(CardSchema).parse(data)
     },
-    refetchOnWindowFocus: false,
     staleTime: 60 * 1000,
   })
 }
