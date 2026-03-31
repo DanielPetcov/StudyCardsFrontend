@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { useStudySession } from "@/stores/study-session.store"
 import { Button } from "../ui/button"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 
 interface SummaryBlockProps {
   deckId: string
@@ -18,6 +19,8 @@ export default function SummaryBlock({
   totalCards,
   className,
 }: SummaryBlockProps) {
+  const t = useTranslations("DeckPage.summaryPage")
+
   const getProgress = useStudySession((state) => state.getProgress)
   const startAgain = useStudySession((state) => state.resetSession)
   const progress = getProgress(deckId, totalCards)
@@ -42,15 +45,15 @@ export default function SummaryBlock({
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
           <p className="text-sm font-medium text-muted-foreground">
-            Study summary
+            {t("title")}
           </p>
           <h2 className="text-xl font-semibold tracking-tight">
-            {progress.isComplete ? "Session completed" : "Keep going"}
+            {progress.isComplete ? t("subTitle") : t("keepGoing")}
           </h2>
         </div>
 
         <div className="rounded-2xl border bg-muted px-3 py-2 text-right">
-          <p className="text-xs text-muted-foreground">Completion</p>
+          <p className="text-xs text-muted-foreground">{t("completion")}</p>
           <p className="text-lg font-semibold">
             {Math.round(completionValue)}%
           </p>
@@ -70,35 +73,35 @@ export default function SummaryBlock({
 
       <div className="grid grid-cols-2 gap-3">
         <SummaryStatCard
-          label="Correct"
+          label={t("correct")}
           value={progress.correct}
           icon={CheckCircle2}
           tone="success"
         />
         <SummaryStatCard
-          label="Wrong"
+          label={t("wrong")}
           value={progress.incorrect}
           icon={XCircle}
           tone="danger"
         />
         <SummaryStatCard
-          label="Remaining"
+          label={t("remaining")}
           value={progress.remaining}
           icon={CircleDashed}
           tone="neutral"
         />
         <SummaryStatCard
-          label="Accuracy"
+          label={t("accuracy")}
           value={`${Math.round(accuracyValue)}%`}
           icon={Target}
           tone="accent"
         />
         <div className="col-span-2 grid grid-cols-2 gap-3">
           <Button className="grow" variant={"secondary"} asChild>
-            <Link href="/dashboard">Go to dashboard</Link>
+            <Link href="/dashboard">{t("buttons.gotoDashboard")}</Link>
           </Button>
           <Button className="grow" onClick={handleStartAgain}>
-            Start again
+            {t("buttons.startAgain")}
           </Button>
         </div>
       </div>

@@ -1,25 +1,25 @@
-import { History, Star, Archive, FileStack, LucideIcon } from "lucide-react"
+import { History, Star, Archive, FileStack } from "lucide-react"
 
 import { SidebarLink, SidebarHeaderLink } from "@/types"
 
 export const sidebarLinks: SidebarLink[] = [
   {
-    label: "All Decks",
+    label: "allDecks",
     href: "/dashboard",
     icon: FileStack,
   },
   {
-    label: "Recent",
+    label: "recent",
     href: "/dashboard/recent",
     icon: History,
   },
   {
-    label: "Starred",
+    label: "starred",
     href: "/dashboard/starred",
     icon: Star,
   },
   {
-    label: "Archived",
+    label: "archived",
     href: "/dashboard/archived",
     icon: Archive,
   },
@@ -27,15 +27,15 @@ export const sidebarLinks: SidebarLink[] = [
 
 export const sidebarHeaderLinks: SidebarHeaderLink[] = [
   {
-    label: "Dashboard",
+    label: "dashboard",
     href: "/dashboard",
   },
   {
-    label: "Upload",
+    label: "upload",
     href: "/upload",
   },
   {
-    label: "Library",
+    label: "library",
     href: "/library",
   },
 ]

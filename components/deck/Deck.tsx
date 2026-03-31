@@ -9,8 +9,10 @@ import { cn } from "@/lib/utils"
 import { Card, CardFooter, CardHeader } from "@/components/ui/card"
 
 import { iconMap } from "@/constants/icon-map"
+import { useTranslations } from "next-intl"
 
 export default function Deck({ deck }: { deck: DeckType }) {
+  const t = useTranslations("DashboardPage")
   const router = useRouter()
 
   const isReady = deck.status === "ready"
@@ -69,7 +71,7 @@ export default function Deck({ deck }: { deck: DeckType }) {
             )}
           >
             <div className={cn("h-2 w-2 rounded-full", statusStyles.dot)} />
-            <span>{deck.status}</span>
+            <span>{t(`card.statuses.${deck.status}`)}</span>
           </div>
         </div>
 
@@ -93,7 +95,9 @@ export default function Deck({ deck }: { deck: DeckType }) {
         <div className="flex w-full items-center justify-between gap-3 text-muted-foreground">
           <div className="flex items-center gap-1.5">
             <GalleryHorizontalEnd className="size-4" />
-            <span className="text-xs font-medium">{deck.cardCount} cards</span>
+            <span className="text-xs font-medium">
+              {deck.cardCount} {t("card.cards")}
+            </span>
           </div>
         </div>
       </CardFooter>

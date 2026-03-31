@@ -9,9 +9,11 @@ import { SignoutUser } from "@/actions/signout-user"
 import { useRouter } from "next/navigation"
 import HeaderActionButtons from "./HeaderActionButtons"
 import HeaderLinks from "./HeaderLinks"
+import { useTranslations } from "next-intl"
 
 export default function Header() {
   const router = useRouter()
+  const t = useTranslations("Header")
 
   const signOut = async () => {
     await SignoutUser(onSuccess)
@@ -31,7 +33,7 @@ export default function Header() {
           <InputGroupAddon>
             <Search />
           </InputGroupAddon>
-          <InputGroupInput placeholder="Search..." />
+          <InputGroupInput placeholder={t("searchInput")} />
         </InputGroup>
       </div>
       <HeaderActionButtons />

@@ -1,0 +1,154 @@
+{
+  "Header": {
+    "links": {
+      "dashboard": "Panou",
+      "upload": "Încarcă",
+      "library": "Bibliotecă"
+    },
+    "searchInput": "Caută...",
+    "accountTooltip": "Setări\nCont",
+    "singoutTooltip": "Deconectare",
+    "signedoutAfter": "Deconectare realizată cu succes."
+  },
+  "Sidebar": {
+    "links": {
+      "allDecks": "Toate seturile",
+      "recent": "Recente",
+      "starred": "Favorite",
+      "archived": "Arhivate"
+    },
+    "newUploadButton": "Încarcă nou",
+    "usage": "Utilizare"
+  },
+  "Account": {
+    "title": "Setări cont",
+    "description": "Gestionează spațiul tău de lucru și preferințele.",
+    "preferencesCard": {
+      "title": "Preferințe",
+      "prefferenceLabel": "Limba preferată",
+      "systemLanguageLabel": "Limbă de sistem",
+      "selectLanguage": "Selectează limba...",
+      "noCountryFound": "Nicio țară găsită.",
+      "change": "Schimbă"
+    },
+    "securityCard": {
+      "title": "Securitate",
+      "currentPassword": "Parola curentă",
+      "newPassword": "Parolă nouă",
+      "change": "Schimbă",
+      "changing": "Se schimbă..."
+    },
+    "manageSubscriptionCard": {
+      "actionButton": "Gestionează abonamentul",
+      "usage": "Utilizare luna aceasta",
+      "pdfProcessed": "PDF-uri procesate",
+      "capacity": "Capacitate",
+      "unlimited": "Nelimitat",
+      "active": "Active"
+    }
+  },
+  "RecentlyPage": {
+    "title": "Studiate recent",
+    "description": "Continuă exact de unde ai rămas. Ritmul tău de învățare este cel mai mare avantaj."
+  },
+  "StarredPage": {
+    "title": "Favorite",
+    "description": "Accesează cele mai importante materiale de studiu."
+  },
+  "ArchivedPage": {
+    "title": "Seturi arhivate",
+    "description": "Accesează cele mai importante materiale de studiu."
+  },
+  "DashboardPage": {
+    "title": "Biblioteca mea",
+    "description": "Accesează arhiva ta de cunoștințe generată de AI. Continuă de unde ai rămas sau încarcă materiale noi pentru a-ți extinde seturile.",
+    "noDecks": "Momentan nu există seturi",
+    "addNewBlock": {
+      "titleUnselected": "Adaugă material nou",
+      "titleSelected": "Material selectat",
+      "loadedIntoMemory": "încărcat în memorie",
+      "removeFile": "Șterge fișierul",
+      "upload": "Încarcă",
+      "description": {
+        "title": "PDF (Max 50MB)",
+        "subTitle": "Apasă pentru a selecta sau trage și plasează"
+      },
+      "errors": {
+        "failedToRead": "Nu s-a putut citi fișierul. Încearcă din nou.",
+        "fileTypeError": "Sunt acceptate doar fișiere PDF.",
+        "fileSizeError": "Dimensiunea fișierului trebuie să fie de maximum 50MB."
+      }
+    },
+    "card": {
+      "statuses": {
+        "ready": "Gata",
+        "processing": "Se procesează",
+        "failed": "Eșuat"
+      },
+      "cards": "carduri"
+    }
+  },
+  "DeckPage": {
+    "cardDifficulties": {
+      "easy": "ușor",
+      "medium": "mediu",
+      "hard": "greu"
+    },
+    "selectAnAnswer": "Selectează un răspuns pentru a vedea explicația",
+    "navigationButtons": {
+      "prev": "Anterior",
+      "next": "Următor",
+      "check": "Verifică răspunsul",
+      "finish": "Finalizează",
+      "nextCard": "Următorul card"
+    },
+    "summaryPage": {
+      "title": "Rezumatul studiului",
+      "subTitle": "Sesiune finalizată",
+      "keepGoing": "Continuă",
+      "completion": "Progres",
+      "correct": "Corecte",
+      "remaining": "Rămase",
+      "wrong": "Greșite",
+      "accuracy": "Acuratețe",
+      "buttons": {
+        "gotoDashboard": "Mergi la panou",
+        "startAgain": "Reîncepe"
+      }
+    }
+  },
+  "LoginPage": {
+    "title": "Bine ai revenit",
+    "subTitle": "Autentifică-te pentru a continua studiul, a-ți revizui seturile și a relua de unde ai rămas.",
+    "placeHolders": {
+      "password": "Introdu parola"
+    },
+    "forgotPassword": "Ai uitat parola?",
+    "loginButton": "Autentificare",
+    "logging": "Se autentifică...",
+    "dontHaveAccount": "Nu ai cont?",
+    "registerLink": "Înregistrează-te"
+  },
+  "RegisterPage": {
+    "title": "Creează-ți contul",
+    "subTitle": "Începe să generezi seturi din materialele tale de studiu și să le revizuiești într-un spațiu organizat.",
+    "placeHolders": {
+      "name": "Numele tău",
+      "password": "Creează o parolă"
+    },
+    "createButton": "Creează cont",
+    "creating": "Se creează contul...",
+    "alreadyHaveAccount": "Ai deja cont?",
+    "loginLink": "Autentificare"
+  },
+  "Footer": {
+    "madeby": "Creat de",
+    "rights": "Toate drepturile rezervate."
+  },
+  "Languages": {
+    "En": "Engleză",
+    "Ro": "Română"
+  },
+  "loading": "Se încarcă...",
+  "error": "A apărut o eroare"
+}

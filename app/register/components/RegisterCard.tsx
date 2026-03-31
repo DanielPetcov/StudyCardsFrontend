@@ -29,8 +29,11 @@ import {
 } from "@/components/ui/input-group"
 
 import FormError from "@/components/FormError"
+import { useTranslations } from "next-intl"
 
 export default function RegisterCard() {
+  const t = useTranslations("RegisterPage")
+
   const {
     register,
     handleSubmit,
@@ -69,11 +72,10 @@ export default function RegisterCard() {
       <CardHeader className="gap-3">
         <div className="space-y-1.5">
           <CardTitle className="text-xl tracking-[-0.02em]">
-            Create your account
+            {t("title")}
           </CardTitle>
           <CardDescription className="max-w-[34ch]">
-            Start generating decks from your study material and review them in a
-            focused workspace.
+            {t("subTitle")}
           </CardDescription>
         </div>
       </CardHeader>
@@ -99,7 +101,7 @@ export default function RegisterCard() {
               id="name"
               disabled={loading}
               autoComplete="name"
-              placeholder="Your name"
+              placeholder={t("placeHolders.name")}
               {...register("name")}
             />
             {errors.name && <FormError message={errors.name.message ?? ""} />}
@@ -113,7 +115,7 @@ export default function RegisterCard() {
                 disabled={loading}
                 type={passwordVisible ? "text" : "password"}
                 autoComplete="new-password"
-                placeholder="Create a password"
+                placeholder={t("placeHolders.password")}
                 {...register("password")}
               />
               <InputGroupAddon align="inline-end">
@@ -141,11 +143,11 @@ export default function RegisterCard() {
             {loading ? (
               <>
                 <Loader2 className="animate-spin" />
-                Creating account...
+                {t("creating")}
               </>
             ) : (
               <>
-                Create account
+                {t("createButton")}
                 <MoveRight />
               </>
             )}
@@ -155,12 +157,12 @@ export default function RegisterCard() {
 
       <CardFooter className="justify-center">
         <p className="text-center text-sm text-muted-foreground">
-          Already have an account?{" "}
+          {t("alreadyHaveAccount")}
           <Link
             href="/login"
-            className="font-medium text-primary transition-colors hover:text-primary/80"
+            className="ml-1 font-medium text-primary transition-colors hover:text-primary/80"
           >
-            Sign in
+            {t("loginLink")}
           </Link>
         </p>
       </CardFooter>

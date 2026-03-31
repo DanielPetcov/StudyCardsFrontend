@@ -4,8 +4,6 @@ import { Check, ChevronsUpDown, Settings } from "lucide-react"
 import SettingsCardTitle from "./SettingsCardTitle"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-import { Language } from "@/types/enum"
-
 import { useEffect, useState } from "react"
 import {
   Popover,
@@ -24,6 +22,22 @@ import {
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 import { useMe } from "@/hooks/useMe"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import z from "zod"
+
+import { languagesEnum, type Language } from "@/types/enum"
+import { Field, FieldLabel } from "@/components/ui/field"
+import { useLocale, useTranslations } from "next-intl"
+import { usePathname, useRouter } from "next/navigation"
+import { ChangeLocale } from "@/actions/change-locale"
 
 const languages: { value: Language; label: string }[] = [
   {
@@ -36,71 +50,125 @@ const languages: { value: Language; label: string }[] = [
   },
 ]
 
-export default function PreferencesCard() {
-  const { data, isLoading } = useMe()
-  const [open, setOpen] = useState(false)
-  const [value, setValue] = useState<string | undefined | null>(data?.language)
+const PreferencesSchema = z.object({
+  prefferedLanguage: z.enum(languagesEnum),
+  systemLanguage: z.enum(languagesEnum),
+})
 
-  if (isLoading) {
+type PreferencesFormValues = z.infer<typeof PreferencesSchema>
+
+function isLanguage(value: string): value is Language {
+  return languagesEnum.includes(value as Language)
+}
+
+export default function PreferencesCard() {
+  const t = useTranslations("Account")
+
+  const locale = useLocale()
+  const systemLanguage = isLanguage(locale) ? locale : "ro"
+
+  const { data, isLoading } = useMe()
+  const {
+    control,
+    handleSubmit,
+    resetField,
+    formState: { isDirty },
+  } = useForm<PreferencesFormValues>({
+    resolver: zodResolver(PreferencesSchema),
+    defaultValues: {
+      prefferedLanguage: data ? data.language : "ro",
+      systemLanguage: systemLanguage,
+    },
+  })
+
+  useEffect(() => {
+    const systemLanguage = isLanguage(locale) ? locale : "ro"
+    resetField("systemLanguage", {
+      keepDirty: false,
+      defaultValue: systemLanguage,
+    })
+  }, [locale])
+
+  if (isLoading || !data) {
     return <div>Loading</div>
+  }
+
+  const onSubmit: SubmitHandler<PreferencesFormValues> = async (data) => {
+    try {
+      await ChangeLocale(data.systemLanguage)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>
-          <SettingsCardTitle title="Preferences" Icon={Settings} />
+          <SettingsCardTitle
+            title={t("preferencesCard.title")}
+            Icon={Settings}
+          />
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2">
-          <Label className="text-muted-foreground">Preferred Language</Label>
-          <Popover onOpenChange={setOpen} open={open}>
-            <PopoverTrigger asChild>
-              <Button
-                aria-expanded={open}
-                className="w-full justify-between"
-                role="combobox"
-                variant="outline"
-              >
-                {value
-                  ? languages.find((language) => language.value === value)
-                      ?.label
-                  : "Select language..."}
-                <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-full p-0">
-              <Command>
-                <CommandList>
-                  <CommandEmpty>No country found.</CommandEmpty>
-                  <CommandGroup>
-                    {languages.map((country) => (
-                      <CommandItem
-                        key={country.value}
-                        onSelect={(currentValue) => {
-                          setValue(currentValue === value ? "" : currentValue)
-                          setOpen(false)
-                        }}
-                        value={country.value}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 size-4",
-                            value === country.value
-                              ? "opacity-100"
-                              : "opacity-0"
-                          )}
-                        />
-                        {country.label}
-                      </CommandItem>
+        <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
+          <Controller
+            name="prefferedLanguage"
+            control={control}
+            render={({ field }) => (
+              <Field>
+                <FieldLabel htmlFor="prefferedLanguage">
+                  {t("preferencesCard.prefferenceLabel")}
+                </FieldLabel>
+
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select language" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    {languages.map((l) => (
+                      <SelectItem key={l.value} value={l.value}>
+                        {l.label}
+                      </SelectItem>
                     ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </div>
+                  </SelectContent>
+                </Select>
+              </Field>
+            )}
+          />
+
+          <Controller
+            name="systemLanguage"
+            control={control}
+            render={({ field }) => (
+              <Field>
+                <FieldLabel htmlFor="systemLanguage">
+                  {t("preferencesCard.systemLanguageLabel")}
+                </FieldLabel>
+
+                <Select value={field.value} onValueChange={field.onChange}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select language" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    {languages.map((l) => (
+                      <SelectItem key={l.value} value={l.value}>
+                        {l.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+            )}
+          />
+
+          <Button disabled={!isDirty} className="w-full" type="submit">
+            {t("preferencesCard.change")}
+          </Button>
+        </form>
       </CardContent>
     </Card>
   )

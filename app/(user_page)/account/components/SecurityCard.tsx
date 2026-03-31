@@ -21,8 +21,11 @@ import { ChangePasswordSchema } from "@/schemas/changePassword.schema"
 
 import { ChangePassword } from "@/actions/change-password"
 import { toast } from "sonner"
+import { useTranslations } from "next-intl"
 
 export default function SecurityCard() {
+  const t = useTranslations("Account")
+
   const [passwordVisible, setPasswordVisible] = useState(false)
   const [apiError, setApiError] = useState<null | string>(null)
   const [loading, setLoading] = useState(false)
@@ -69,14 +72,14 @@ export default function SecurityCard() {
     <Card>
       <CardHeader>
         <CardTitle>
-          <SettingsCardTitle title="Security" Icon={Lock} />
+          <SettingsCardTitle title={t("title")} Icon={Lock} />
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+        <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-2">
             <Label htmlFor="currentPassword" className="text-muted-foreground">
-              Current password
+              {t("securityCard.currentPassword")}
             </Label>
             <Input
               disabled={loading}
@@ -90,7 +93,7 @@ export default function SecurityCard() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="newPassword" className="text-muted-foreground">
-              New password
+              {t("securityCard.newPassword")}
             </Label>
             <InputGroup>
               <InputGroupAddon align="inline-end">
@@ -116,10 +119,10 @@ export default function SecurityCard() {
             {loading ? (
               <>
                 <Loader2 className="animate-spin" />
-                Changing...
+                {t("securityCard.changing")}
               </>
             ) : (
-              <p>Change</p>
+              <p>{t("securityCard.change")}</p>
             )}
           </Button>
         </form>

@@ -7,6 +7,8 @@ import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
 import Providers from "./providers"
 
+import { NextIntlClientProvider } from "next-intl"
+
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
 const fontMono = Geist_Mono({
@@ -33,7 +35,9 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <TooltipProvider>
-            <Providers>{children}</Providers>
+            <Providers>
+              <NextIntlClientProvider>{children}</NextIntlClientProvider>
+            </Providers>
           </TooltipProvider>
         </ThemeProvider>
         <Toaster />

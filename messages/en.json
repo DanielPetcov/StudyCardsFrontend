@@ -1,0 +1,154 @@
+{
+  "Header": {
+    "links": {
+      "dashboard": "Dashboard",
+      "upload": "Upload",
+      "library": "Library"
+    },
+    "searchInput": "Search...",
+    "accountTooltip": "Account\nSettings",
+    "singoutTooltip": "Signout",
+    "signedoutAfter": "Successfully SignedOut."
+  },
+  "Sidebar": {
+    "links": {
+      "allDecks": "All Decks",
+      "recent": "Recent",
+      "starred": "Starred",
+      "archived": "Archived"
+    },
+    "newUploadButton": "New Upload",
+    "usage": "Usage"
+  },
+  "Account": {
+    "title": "Account Settings",
+    "description": "Manage your intellectual workspace and preferences.",
+    "preferencesCard": {
+      "title": "Preferences",
+      "prefferenceLabel": "Preferred Language",
+      "systemLanguageLabel": "System Language",
+      "selectLanguage": "Select language...",
+      "noCountryFound": "No country found.",
+      "change": "Change"
+    },
+    "securityCard": {
+      "title": "Security",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "change": "Change",
+      "changing": "Changeing..."
+    },
+    "manageSubscriptionCard": {
+      "actionButton": "Manage Subscription",
+      "usage": "Usage this month",
+      "pdfProcessed": "PDFs processed",
+      "capacity": "Capacity",
+      "unlimited": "Unlimited",
+      "active": "Active"
+    }
+  },
+  "RecentlyPage": {
+    "title": "Recently Studied",
+    "description": "Pick up exactly where you left off. Your cognitive momentum is your greatest asset."
+  },
+  "StarredPage": {
+    "title": "Favorites",
+    "description": "Access your most important study materials."
+  },
+  "ArchivedPage": {
+    "title": "Archived Decks",
+    "description": "Access your most important study materials."
+  },
+  "DashboardPage": {
+    "title": "My library",
+    "description": "Access your AI-curated knowledge archive. Continue where you left off or upload new material to expand your decks.",
+    "noDecks": "Currently there are no decks",
+    "addNewBlock": {
+      "titleUnselected": "Add New Material",
+      "titleSelected": "Material selected",
+      "loadedIntoMemory": "loaded into memory",
+      "removeFile": "Remove file",
+      "upload": "Upload",
+      "description": {
+        "title": "PDF (Max 50MB)",
+        "subTitle": "Click to choose or drag and drop"
+      },
+      "errors": {
+        "failedToRead": "Failed to read the file. Try again.",
+        "fileTypeError": "Only PDF files are allowed.",
+        "fileSizeError": "File size must be 50MB or less."
+      }
+    },
+    "card": {
+      "statuses": {
+        "ready": "Ready",
+        "processing": "Processing",
+        "failed": "Failed"
+      },
+      "cards": "cards"
+    }
+  },
+  "DeckPage": {
+    "cardDifficulties": {
+      "easy": "easy",
+      "medium": "medium",
+      "hard": "hard"
+    },
+    "selectAnAnswer": "Select an answer to see the explanation",
+    "navigationButtons": {
+      "prev": "Previous",
+      "next": "Next",
+      "check": "Check Answer",
+      "finish": "Finish",
+      "nextCard": "Next Card"
+    },
+    "summaryPage": {
+      "title": "Study summary",
+      "subTitle": "Session completed",
+      "keepGoing": "Keep going",
+      "completion": "Completion",
+      "correct": "Correct",
+      "remaining": "Remaining",
+      "wrong": "Wrong",
+      "accuracy": "Accuracy",
+      "buttons": {
+        "gotoDashboard": "Go to dashboard",
+        "startAgain": "Start again"
+      }
+    }
+  },
+  "LoginPage": {
+    "title": "Welcome back",
+    "subTitle": "Log in to continue studying, review your decks, and pick up where you left off.",
+    "placeHolders": {
+      "password": "Enter your password"
+    },
+    "forgotPassword": "Forgot Password?",
+    "loginButton": "Log in",
+    "logging": "Logging in...",
+    "dontHaveAccount": "Don't have an account?",
+    "registerLink": "Register"
+  },
+  "RegisterPage": {
+    "title": "Create your account",
+    "subTitle": "Start generating decks from your study material and review them in a focused workspace.",
+    "placeHolders": {
+      "name": "Your name",
+      "password": "Create a password"
+    },
+    "createButton": "Create account",
+    "creating": "Creating account...",
+    "alreadyHaveAccount": "Already have an account?",
+    "loginLink": "Login"
+  },
+  "Footer": {
+    "madeby": "Made by",
+    "rights": "All rights reserved."
+  },
+  "Languages": {
+    "En": "English",
+    "Ro": "Romanian"
+  },
+  "loading": "Loading...",
+  "error": "There is an error"
+}

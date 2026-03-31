@@ -3,19 +3,21 @@ import ProfileCard from "./components/ProfileCard"
 import PreferencesCard from "./components/PreferencesCard"
 import SecurityCard from "./components/SecurityCard"
 import ManageSubscriptionCard from "@/components/ManageSubscriptionCard"
+import { getTranslations } from "next-intl/server"
 
-export default function AccountPage() {
+export default async function AccountPage() {
+  const t = await getTranslations("Account")
+
   return (
     <>
-      <PageTitle
-        title="Account Settings"
-        description="Manage your intellectual workspace and preferences."
-      />
+      <PageTitle title={t("title")} description={t("description")} />
 
-      <ProfileCard className="mb-10" />
-      <div className="mb-10 grid grid-cols-2 gap-10">
-        <PreferencesCard />
-        <SecurityCard />
+      <div className="max-w-5xl">
+        <ProfileCard className="mb-10" />
+        <div className="mb-10 grid grid-cols-2 gap-10">
+          <PreferencesCard />
+          <SecurityCard />
+        </div>
       </div>
 
       <ManageSubscriptionCard />

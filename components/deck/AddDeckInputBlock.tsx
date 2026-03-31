@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils"
 import { Button } from "../ui/button"
 import { useUploadDeck } from "@/hooks/useUploadDeck"
+import { useTranslations } from "next-intl"
 
 type UploadedMaterial = {
   file: File
@@ -21,6 +22,7 @@ type UploadedMaterial = {
 
 export default function AddDeckInputBlock() {
   const { mutate } = useUploadDeck()
+  const t = useTranslations("DashboardPage")
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   const [isDragging, setIsDragging] = useState(false)
@@ -50,11 +52,11 @@ export default function AddDeckInputBlock() {
     )
 
     if (!hasValidExtension) {
-      return "Only PDF files are allowed."
+      return t("addNewBlock.errors.fileTypeError")
     }
 
     if (file.size > maxSizeInBytes) {
-      return "File size must be 50MB or less."
+      return t("addNewBlock.errors.fileSizeError")
     }
 
     return null
@@ -83,7 +85,7 @@ export default function AddDeckInputBlock() {
       // const uint8 = new Uint8Array(buffer)
       // fetch("/api/upload", { method: "POST", body: uint8 })
     } catch {
-      setError("Failed to read the file. Try again.")
+      setError(t("addNewBlock.errors.failedToRead"))
       setUploadedMaterial(null)
     }
   }
@@ -164,7 +166,9 @@ export default function AddDeckInputBlock() {
           </EmptyMedia>
 
           <EmptyTitle className="text-md">
-            {uploadedMaterial ? "Material selected" : "Add New Material"}
+            {uploadedMaterial
+              ? t("addNewBlock.titleSelected")
+              : t("addNewBlock.titleUnselected")}
           </EmptyTitle>
 
           {uploadedMaterial ? (
@@ -177,7 +181,7 @@ export default function AddDeckInputBlock() {
               </div>
               <EmptyDescription className="text-xs">
                 {(uploadedMaterial.file.size / 1024 / 1024).toFixed(2)} MB
-                loaded into memory
+                {t("addNewBlock.loadedIntoMemory")}
               </EmptyDescription>
 
               <div className="flex items-center gap-1">
@@ -191,7 +195,7 @@ export default function AddDeckInputBlock() {
                   className="flex w-fit items-center hover:bg-red-500 hover:text-white"
                 >
                   <X className="size-3" />
-                  Remove file
+                  {t("addNewBlock.removeFile")}
                 </Button>
                 <Button
                   size={"xs"}
@@ -202,15 +206,15 @@ export default function AddDeckInputBlock() {
                   className="hover:bg-green-500"
                 >
                   <Check className="size-3" />
-                  Upload
+                  {t("addNewBlock.upload")}
                 </Button>
               </div>
             </div>
           ) : (
             <EmptyDescription className="text-xs">
-              PDF (Max 50MB)
+              {t("addNewBlock.description.title")}
               <br />
-              Click to choose or drag and drop
+              {t("addNewBlock.description.subTitle")}
             </EmptyDescription>
           )}
 

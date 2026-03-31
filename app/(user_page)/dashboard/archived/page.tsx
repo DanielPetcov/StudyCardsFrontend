@@ -1,21 +1,19 @@
 import PageTitle from "@/components/PageTitle"
 
-import { deckArchived } from "@/constants/deck"
 import ArchivedDeck from "./components/ArchivedDeck"
+import { getTranslations } from "next-intl/server"
 
-export default function ArchivedPage() {
+export default async function ArchivedPage() {
+  const t = await getTranslations("RecentlyPage")
+
   return (
     <>
-      <PageTitle
-        title="Archived Decks"
-        description="Review and restore past study materials. These decks are currently
-hidden from your primary dashboard but preserved for reference."
-      />
+      <PageTitle title={t("title")} description={t("description")} />
 
       <div className="flex flex-wrap gap-5">
-        {deckArchived.map((d) => (
+        {/* {deckArchived.map((d) => (
           <ArchivedDeck key={d.id} deck={d} />
-        ))}
+        ))} */}
       </div>
     </>
   )

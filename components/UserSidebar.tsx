@@ -17,9 +17,12 @@ import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
 import DecksUsageProgress from "./DecksUsageProgress"
+import { useTranslations } from "next-intl"
 
 export default function UserSidebar() {
   const pathname = usePathname()
+  const headerLinksTranslation = useTranslations("Header.links")
+  const sidebarTranslation = useTranslations("Sidebar")
 
   return (
     <Sidebar className="bg-sidebar p-5">
@@ -38,7 +41,7 @@ export default function UserSidebar() {
             >
               <Link href={link.href}>
                 <link.icon />
-                {link.label}
+                {sidebarTranslation(`links.${link.label}`)}
               </Link>
             </Button>
           ))}
@@ -51,7 +54,7 @@ export default function UserSidebar() {
                 className={pathname.includes(link.href) ? "underline" : ""}
                 href={link.href}
               >
-                {link.label}
+                {headerLinksTranslation(`${link.label}`)}
               </Link>
             </Button>
           ))}
@@ -60,7 +63,7 @@ export default function UserSidebar() {
       <SidebarFooter>
         <Button size={"lg"}>
           <Plus />
-          New Upload
+          {sidebarTranslation("newUploadButton")}
         </Button>
         <Separator className="mb-4" />
         <DecksUsageProgress />

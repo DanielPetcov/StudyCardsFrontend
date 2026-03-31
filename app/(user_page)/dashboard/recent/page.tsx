@@ -1,25 +1,23 @@
 import PageTitle from "@/components/PageTitle"
 
-import { deckRecenlty } from "@/constants/deck"
 import RecentlyCard from "./components/RecentlyCard"
+import { getTranslations } from "next-intl/server"
 
-export default function RecentPage() {
+export default async function RecentPage() {
+  const t = await getTranslations("RecentlyPage")
+
   return (
     <>
-      <PageTitle
-        title="Recently Studied"
-        description="Pick up exactly where you left off. Your cognitive momentum is
-your greatest asset."
-      />
+      <PageTitle title={t("title")} description={t("description")} />
 
       <div className="flex flex-wrap gap-5">
-        {deckRecenlty.map((d, index) =>
+        {/* {deckRecenlty.map((d, index) =>
           index === 0 ? (
             <RecentlyCard key={d.id} deck={d} isFirst={true} />
           ) : (
             <RecentlyCard key={d.id} deck={d} isFirst={false} />
           )
-        )}
+        )} */}
       </div>
     </>
   )

@@ -28,8 +28,11 @@ import FormError from "@/components/FormError"
 
 import { LoginSchema } from "@/schemas/login.schema"
 import { LoginUser } from "@/actions/login-user"
+import { useTranslations } from "next-intl"
 
 export default function LoginCard() {
+  const t = useTranslations("LoginPage")
+
   const {
     register,
     handleSubmit,
@@ -68,11 +71,10 @@ export default function LoginCard() {
       <CardHeader className="gap-3">
         <div className="space-y-1.5">
           <CardTitle className="text-xl tracking-[-0.02em]">
-            Welcome back
+            {t("title")}
           </CardTitle>
           <CardDescription className="max-w-[32ch] text-xs">
-            Log in to continue studying, review your decks, and pick up where
-            you left off.
+            {t("subTitle")}
           </CardDescription>
         </div>
       </CardHeader>
@@ -101,7 +103,7 @@ export default function LoginCard() {
                 href="/forgot-password"
                 className="text-sm text-primary transition-colors hover:text-primary/80"
               >
-                Forgot password?
+                {t("forgotPassword")}
               </Link>
             </div>
 
@@ -111,7 +113,7 @@ export default function LoginCard() {
                 type={visiblePassword ? "text" : "password"}
                 disabled={loading}
                 autoComplete="current-password"
-                placeholder="Enter your password"
+                placeholder={t("placeHolders.password")}
                 {...register("password")}
               />
               <InputGroupAddon align="inline-end">
@@ -140,11 +142,11 @@ export default function LoginCard() {
             {loading ? (
               <>
                 <Loader2 className="animate-spin" />
-                Logging in...
+                {t("logging")}
               </>
             ) : (
               <>
-                Log in
+                {t("loginButton")}
                 <MoveRight />
               </>
             )}
@@ -154,12 +156,12 @@ export default function LoginCard() {
 
       <CardFooter className="justify-center">
         <p className="text-center text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
+          {t("dontHaveAccount")}
           <Link
             href="/register"
-            className="font-medium text-primary transition-colors hover:text-primary/80"
+            className="ml-1 font-medium text-primary transition-colors hover:text-primary/80"
           >
-            Register
+            {t("registerLink")}
           </Link>
         </p>
       </CardFooter>

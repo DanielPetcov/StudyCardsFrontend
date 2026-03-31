@@ -5,9 +5,11 @@ import { Progress } from "@/components/ui/progress"
 
 import { MAX_FREE_UPLOADS } from "@/constants"
 import { useMe } from "@/hooks/useMe"
+import { useTranslations } from "next-intl"
 
 export default function DecksUsageProgress() {
   const { data, isLoading, isError, error } = useMe()
+  const t = useTranslations("Sidebar")
 
   if (isLoading) {
     return <div>loading</div>
@@ -28,7 +30,9 @@ export default function DecksUsageProgress() {
     <div className="space-y-2">
       <div className="flex items-center gap-1 pl-2 text-xs text-accent-foreground">
         <Gauge size={20} />
-        <p>Usage: {usage}%</p>
+        <p>
+          {t("usage")}: {usage}%
+        </p>
       </div>
       <Progress value={usage} />
     </div>

@@ -4,24 +4,26 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
-
-const headerLinks = [
-  {
-    href: "/dashboard",
-    label: "Dashboard",
-  },
-  {
-    href: "/upload",
-    label: "Upload",
-  },
-  {
-    href: "/library",
-    label: "Library",
-  },
-]
+import { useTranslations } from "next-intl"
+import { cn } from "@/lib/utils"
 
 export default function HeaderLinks({ className }: { className?: string }) {
   const pathname = usePathname()
+  const t = useTranslations("Header.links")
+  const headerLinks = [
+    {
+      href: "/dashboard",
+      label: t("dashboard"),
+    },
+    // {
+    //   href: "/upload",
+    //   label: t("upload"),
+    // },
+    // {
+    //   href: "/library",
+    //   label: t("library"),
+    // },
+  ]
 
   return (
     <div className={className}>
@@ -29,7 +31,10 @@ export default function HeaderLinks({ className }: { className?: string }) {
         <Button key={l.href} asChild variant={"link"}>
           <Link
             href={l.href}
-            className={pathname.includes(l.href) ? "underline" : ""}
+            className={cn(
+              "capitalize",
+              pathname.includes(l.href) ? "underline" : ""
+            )}
           >
             {l.label}
           </Link>

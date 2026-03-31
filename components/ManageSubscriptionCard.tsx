@@ -7,8 +7,11 @@ import { Progress } from "./ui/progress"
 import { useMe } from "@/hooks/useMe"
 
 import { MAX_FREE_UPLOADS } from "@/constants"
+import { useTranslations } from "next-intl"
 
 export default function ManageSubscriptionCard() {
+  const t = useTranslations("Account.manageSubscriptionCard")
+
   const { data, isLoading } = useMe()
 
   const uploadsUsed = data?.uploadsUsed || 0
@@ -27,20 +30,24 @@ export default function ManageSubscriptionCard() {
             <p className="text-2xl">Pro Plan</p>
           </div>
           <Button size="lg" className="bg-accent text-accent-foreground">
-            Manage Subscription
+            {t("actionButton")}
           </Button>
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="mb-5 space-y-2">
-          <div className="font-semibold uppercase">Usage this month</div>
+          <div className="font-semibold uppercase">{t("usage")}</div>
           <div className="flex items-baseline justify-between">
             <div className="flex items-baseline gap-1 font-semibold">
               <div className="text-2xl font-bold">{uploadsUsed}</div>
               <div>/</div>
-              <div>10 PDFs processed</div>
+              <div>
+                {MAX_FREE_UPLOADS} {t("pdfProcessed")}
+              </div>
             </div>
-            <div className="text-xs">{usage}% Capacity</div>
+            <div className="text-xs">
+              {usage}% {t("capacity")}
+            </div>
           </div>
           <Progress value={usage} className="h-2" />
         </div>
@@ -53,12 +60,12 @@ export default function ManageSubscriptionCard() {
           <ComparationCard
             title="AI summaries"
             currentValue="12"
-            comparedValue="Unlimited"
+            comparedValue={t("unlimited")}
           />
           <ComparationCard
             title="Shared Decks"
             currentValue="8"
-            comparedValue="Active"
+            comparedValue={t("active")}
             slash={false}
           />
         </div>

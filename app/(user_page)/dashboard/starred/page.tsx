@@ -1,20 +1,19 @@
 import PageTitle from "@/components/PageTitle"
 
-import { deckStarred } from "@/constants/deck"
 import StaredCard from "./components/StaredCard"
+import { getTranslations } from "next-intl/server"
 
-export default function StarredPage() {
+export default async function StarredPage() {
+  const t = await getTranslations("StarredPage")
+
   return (
     <>
-      <PageTitle
-        title="Favorites"
-        description="Access your most important study materials."
-      />
+      <PageTitle title={t("title")} description={t("description")} />
 
       <div className="flex flex-wrap gap-5">
-        {deckStarred.map((d) => (
+        {/* {deckStarred.map((d) => (
           <StaredCard key={d.id} deck={d} />
-        ))}
+        ))} */}
       </div>
     </>
   )

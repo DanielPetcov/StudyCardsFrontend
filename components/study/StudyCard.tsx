@@ -16,6 +16,7 @@ import { useParams } from "next/navigation"
 
 import { CardTestSchema } from "@/schemas"
 import type { CardTest as CardTestFormData } from "@/types"
+import { useTranslations } from "next-intl"
 
 interface StudyCardProps {
   card: CardType
@@ -49,6 +50,7 @@ export default function StudyCard({
       optionId: "",
     },
   })
+  const t = useTranslations("DeckPage")
 
   const params = useParams()
   const deckId = params.id as string
@@ -138,7 +140,7 @@ export default function StudyCard({
               }
             )}
           >
-            {card.difficulty.toUpperCase()}
+            {t(`cardDifficulties.${card.difficulty}`).toUpperCase()}
           </span>
 
           <span className="text-sm text-muted-foreground">
@@ -230,7 +232,7 @@ export default function StudyCard({
             {!isAnswered ? (
               <div className="rounded-lg border-2 border-dashed border-muted p-6 text-center">
                 <p className="text-sm text-muted-foreground">
-                  Select an answer to see the explanation
+                  {t("selectAnAnswer")}
                 </p>
               </div>
             ) : (
@@ -280,7 +282,7 @@ export default function StudyCard({
           disabled={isFirst}
         >
           <ChevronLeft className="mr-1 h-4 w-4" />
-          Previous
+          {t("navigationButtons.prev")}
         </Button>
 
         {!isAnswered ? (
@@ -290,7 +292,7 @@ export default function StudyCard({
             onClick={handleSubmit(onSubmit)}
             className="px-8"
           >
-            Check Answer
+            {t("navigationButtons.check")}
           </Button>
         ) : (
           <Button
@@ -299,7 +301,9 @@ export default function StudyCard({
             className="px-8"
             disabled={isLast && !isComplete}
           >
-            {isLast ? "Finish" : "Next Card"}
+            {isLast
+              ? t("navigationButtons.finish")
+              : t("navigationButtons.nextCard")}
             {!isLast && <ChevronRight className="ml-1 h-4 w-4" />}
           </Button>
         )}
@@ -310,7 +314,7 @@ export default function StudyCard({
           onClick={() => handleNextCard(isLast)}
           disabled={isLast}
         >
-          Next
+          {t("navigationButtons.next")}
           <ChevronRight className="ml-1 h-4 w-4" />
         </Button>
       </CardFooter>

@@ -13,13 +13,15 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { useTranslations } from "next-intl"
 
 export default function HeaderActionButtons() {
   const router = useRouter()
+  const t = useTranslations("Header")
 
   const handleLogOut = async () => {
     await SignoutUser(() => router.push("/login"))
-    toast.success("Successfully SignedOut.")
+    toast.success(t("signedoutAfter"))
   }
 
   return (
@@ -36,9 +38,7 @@ export default function HeaderActionButtons() {
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          <p className="text-center">
-            Account <br /> Settings
-          </p>
+          <p className="text-center">{t("accountTooltip")}</p>
         </TooltipContent>
       </Tooltip>
       <Tooltip>
@@ -53,7 +53,7 @@ export default function HeaderActionButtons() {
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          <p>SignOut</p>
+          <p>{t("singoutTooltip")}</p>
         </TooltipContent>
       </Tooltip>
     </div>
