@@ -4,8 +4,9 @@ import { Check, ChevronsUpDown, Settings } from "lucide-react"
 import SettingsCardTitle from "./SettingsCardTitle"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-import { languagesEnum } from "@/types/enums"
-import { useState } from "react"
+import { Language } from "@/types/enum"
+
+import { useEffect, useState } from "react"
 import {
   Popover,
   PopoverTrigger,
@@ -22,8 +23,9 @@ import {
 } from "@/components/ui/command"
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
+import { useMe } from "@/hooks/useMe"
 
-const languages: { value: (typeof languagesEnum)[number]; label: string }[] = [
+const languages: { value: Language; label: string }[] = [
   {
     value: "en",
     label: "English",
@@ -32,15 +34,16 @@ const languages: { value: (typeof languagesEnum)[number]; label: string }[] = [
     value: "ro",
     label: "Romanian",
   },
-  {
-    value: "ru",
-    label: "Russian",
-  },
 ]
 
 export default function PreferencesCard() {
+  const { data, isLoading } = useMe()
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState<string | undefined | null>(data?.language)
+
+  if (isLoading) {
+    return <div>Loading</div>
+  }
 
   return (
     <Card>

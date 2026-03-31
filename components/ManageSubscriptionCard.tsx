@@ -1,9 +1,23 @@
+"use client"
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { BadgeCheck } from "lucide-react"
 import { Button } from "./ui/button"
 import { Progress } from "./ui/progress"
+import { useMe } from "@/hooks/useMe"
+
+import { MAX_FREE_UPLOADS } from "@/constants"
 
 export default function ManageSubscriptionCard() {
+  const { data, isLoading } = useMe()
+
+  const uploadsUsed = data?.uploadsUsed || 0
+  const usage = (uploadsUsed / MAX_FREE_UPLOADS) * 100
+
+  if (isLoading) {
+    return <div></div>
+  }
+
   return (
     <Card className="pt-0">
       <CardHeader className="bg-linear-90 from-blue-800 to-blue-600 p-5">
@@ -22,13 +36,13 @@ export default function ManageSubscriptionCard() {
           <div className="font-semibold uppercase">Usage this month</div>
           <div className="flex items-baseline justify-between">
             <div className="flex items-baseline gap-1 font-semibold">
-              <div className="text-2xl font-bold">3</div>
+              <div className="text-2xl font-bold">{uploadsUsed}</div>
               <div>/</div>
               <div>10 PDFs processed</div>
             </div>
-            <div className="text-xs">30% Capacity</div>
+            <div className="text-xs">{usage}% Capacity</div>
           </div>
-          <Progress value={30} className="h-2" />
+          <Progress value={usage} className="h-2" />
         </div>
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
           <ComparationCard
