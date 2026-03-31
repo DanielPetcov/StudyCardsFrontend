@@ -41,7 +41,7 @@ export default function Deck({ deck }: { deck: DeckType }) {
     <Card
       onClick={visitDeck}
       className={cn(
-        "flex h-60 w-sm gap-0 transition-shadow",
+        "flex h-65 w-sm gap-0 transition-shadow",
         isReady
           ? "cursor-pointer shadow-sm hover:shadow-xl"
           : ["cursor-default", "opacity-80", "saturate-50", "shadow-none"]
