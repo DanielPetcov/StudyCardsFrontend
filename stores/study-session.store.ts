@@ -16,25 +16,29 @@ interface StudySessionStore {
         }
       >
       reviewLater: string[] // card IDs
+      showSummary: boolean
     }
   >
 
   // Actions
   setCurrentCard: (deckId: string, index: number) => void // used
+
   answerCard: (
     deckId: string,
     cardId: string,
     optionId: string,
     correct: boolean
-  ) => void
+  ) => void // used
+
   getCardAnswer: (
     deckId: string,
     cardId: string
   ) => {
     optionId: string
     isCorrect: boolean
-  } | null
-  isCardAnswered: (deckId: string, cardId: string) => boolean
+  } | null // used
+
+  isCardAnswered: (deckId: string, cardId: string) => boolean // used
 
   markForReview: (deckId: string, cardId: string) => void
   completeSession: (deckId: string) => void
@@ -50,6 +54,8 @@ interface StudySessionStore {
     remaining: number
     isComplete: boolean
   }
+
+  setShowSummary: (deckId: string, value: boolean) => void
 }
 
 export const useStudySession = create<StudySessionStore>()(
@@ -116,20 +122,20 @@ export const useStudySession = create<StudySessionStore>()(
         })),
 
       resetSession: (deckId) =>
-        set((state) => {
-          const { [deckId]: _, ...rest } = state.sessions
-          return { sessions: rest }
-        }),
+        set((state) => ({
+          sessions: {
+            ...state.sessions,
+            [deckId]: createDefaultSession(deckId),
+          },
+        })),
 
       getSession: (deckId) => get().sessions[deckId] || null,
 
-      // ⭐ Get card's answer status
       getCardAnswer: (deckId, cardId) => {
         const session = get().sessions[deckId]
         return session?.answers?.[cardId] || null
       },
 
-      // ⭐ Check if card is answered
       isCardAnswered: (deckId, cardId) => {
         const session = get().sessions[deckId]
         return !!session?.answers?.[cardId]
@@ -149,9 +155,29 @@ export const useStudySession = create<StudySessionStore>()(
 
         return { answered, correct, incorrect, remaining, isComplete }
       },
+
+      setShowSummary: (deckId, value) =>
+        set((state) => ({
+          sessions: {
+            ...state.sessions,
+            [deckId]: {
+              ...state.sessions[deckId],
+              showSummary: value,
+            },
+          },
+        })),
     }),
     {
       name: "study-sessions",
     }
   )
 )
+
+const createDefaultSession = (deckId: string) => ({
+  deckId,
+  currentCardIndex: 0,
+  startedAt: new Date(),
+  answers: {},
+  reviewLater: [],
+  showSummary: false,
+})

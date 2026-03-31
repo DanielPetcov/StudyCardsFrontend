@@ -1,4 +1,3 @@
-// components/study/StudyCard.tsx
 "use client"
 
 import { useEffect, useState } from "react"
@@ -11,33 +10,33 @@ import { Button } from "../ui/button"
 import { ChevronLeft, ChevronRight, CheckCircle2, XCircle } from "lucide-react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import z from "zod"
 import FormError from "../FormError"
 import { cn } from "@/lib/utils"
 import { useParams } from "next/navigation"
+
+import { CardTestSchema } from "@/schemas"
+import type { CardTest as CardTestFormData } from "@/types"
 
 interface StudyCardProps {
   card: CardType
   totalCards: number
   onNext: () => void
   onPrevious: () => void
+  onSummary: () => void
   isFirst: boolean
   isLast: boolean
+  isComplete: boolean
 }
-
-const CardTestSchema = z.object({
-  optionId: z.string().min(1, "You must select an option"),
-})
-
-type CardTestFormData = z.infer<typeof CardTestSchema>
 
 export default function StudyCard({
   card,
   totalCards,
   onNext,
   onPrevious,
+  onSummary,
   isFirst,
   isLast,
+  isComplete,
 }: StudyCardProps) {
   const {
     control,
@@ -63,26 +62,20 @@ export default function StudyCard({
 
   const [isAnswered, setIsAnswered] = useState(isAlreadyAnswered)
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(
-    isAlreadyAnswered
-      ? card.options.find(
-          (o) => o.isCorrect === (cardAnswer?.isCorrect === true)
-        )?.id || null
+    isAlreadyAnswered && cardAnswer
+      ? card.options.find((o) => o.id === cardAnswer.optionId)?.id || null
       : null
   )
 
   useEffect(() => {
-    if (isAlreadyAnswered && cardAnswer) {
+    if (cardAnswer) {
       setIsAnswered(true)
-
-      const selectedOption =
-        cardAnswer.isCorrect === true
-          ? card.options.find((o) => o.isCorrect === true)
-          : card.options.find((o) => o.isCorrect === false)
+      setSelectedOptionId(cardAnswer.optionId)
     } else {
       setIsAnswered(false)
       setSelectedOptionId(null)
     }
-  }, [card.id, isAlreadyAnswered, cardAnswer, card.options])
+  }, [card.id, cardAnswer])
 
   const answerCard = useStudySession((state) => state.answerCard)
 
@@ -99,9 +92,13 @@ export default function StudyCard({
     answerCard(deckId, card.id, chosen.id, chosen?.isCorrect)
   }
 
-  const handleNextCard = () => {
+  const handleNextCard = (isLast: boolean) => {
     clearErrors()
-    onNext()
+    if (!isLast) {
+      onNext()
+    } else {
+      onSummary()
+    }
   }
 
   const handlePreviousCard = () => {
@@ -170,6 +167,7 @@ export default function StudyCard({
                 onValueChange={(v) => {
                   if (!isAnswered) {
                     field.onChange(v)
+                    setSelectedOptionId(v)
                     clearErrors()
                   }
                 }}
@@ -286,15 +284,20 @@ export default function StudyCard({
         </Button>
 
         {!isAnswered ? (
-          <Button size="lg" onClick={handleSubmit(onSubmit)} className="px-8">
+          <Button
+            disabled={!selectedOption}
+            size="lg"
+            onClick={handleSubmit(onSubmit)}
+            className="px-8"
+          >
             Check Answer
           </Button>
         ) : (
           <Button
             size="lg"
-            onClick={handleNextCard}
-            disabled={isLast}
+            onClick={() => handleNextCard(isLast)}
             className="px-8"
+            disabled={isLast && !isComplete}
           >
             {isLast ? "Finish" : "Next Card"}
             {!isLast && <ChevronRight className="ml-1 h-4 w-4" />}
@@ -304,7 +307,7 @@ export default function StudyCard({
         <Button
           variant="outline"
           size="default"
-          onClick={handleNextCard}
+          onClick={() => handleNextCard(isLast)}
           disabled={isLast}
         >
           Next
