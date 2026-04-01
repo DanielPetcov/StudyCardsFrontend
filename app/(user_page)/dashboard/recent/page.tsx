@@ -1,6 +1,5 @@
 import PageTitle from "@/components/PageTitle"
 
-import RecentlyCard from "./components/RecentlyCard"
 import { getTranslations } from "next-intl/server"
 
 export default async function RecentPage() {

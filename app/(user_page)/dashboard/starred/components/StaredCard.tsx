@@ -10,9 +10,10 @@ import {
 } from "lucide-react"
 
 import { Card, CardHeader, CardFooter, CardAction } from "@/components/ui/card"
-import { DeckStared } from "@/constants/deck"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+
+import { DeckStarred } from "@/types"
 
 const iconMap = {
   "book-open": BookOpen,
@@ -22,8 +23,8 @@ const iconMap = {
   archive: Archive,
 } as const
 
-export default function StaredCard({ deck }: { deck: DeckStared }) {
-  const Icon = iconMap[deck.icon]
+export default function StaredCard({ deck }: { deck: DeckStarred }) {
+  // const Icon = iconMap[deck.icon]
   const progressValue = parseFloat(
     ((deck.cardsStudied / deck.cardCount) * 100).toPrecision(2)
   )
@@ -35,7 +36,7 @@ export default function StaredCard({ deck }: { deck: DeckStared }) {
       <CardHeader className="space-y-4">
         <div className="flex items-start justify-between gap-3">
           <div className={"rounded-md bg-primary-foreground p-3 text-primary"}>
-            <Icon className="size-5" />
+            {/* <Icon className="size-5" /> */}
           </div>
 
           {/* maybe add badge */}

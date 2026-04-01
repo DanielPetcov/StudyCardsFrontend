@@ -1,13 +1,13 @@
 "use client"
 
-import { DeckRecently } from "@/constants/deck"
+import { DeckRecent } from "@/types"
 
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 
 import { formatDistanceToNow } from "date-fns"
 
 interface RecentlyCardProps {
-  deck: DeckRecently
+  deck: DeckRecent
   isFirst: boolean
 }
 
@@ -34,12 +34,12 @@ const iconMap = {
 } as const
 
 export default function RecentlyCard({ deck, isFirst }: RecentlyCardProps) {
-  const Icon = iconMap[deck.icon]
+  // const Icon = iconMap[deck.icon]
   const notCompletedDeck = deck.cardCount !== deck.cardsStudied // this checks if the user didn't complete the deck.
 
-  const lastTime = formatDistanceToNow(deck.lastTimeAccessed, {
-    addSuffix: true,
-  })
+  // const lastTime = formatDistanceToNow(deck.lastTimeAccessed, {
+  //   addSuffix: true,
+  // })
 
   return (
     <Card
@@ -51,7 +51,7 @@ export default function RecentlyCard({ deck, isFirst }: RecentlyCardProps) {
       <CardHeader className="space-y-4">
         <div className="flex items-start justify-between gap-3">
           <div className={"rounded-md bg-primary-foreground p-3 text-primary"}>
-            <Icon className="size-5" />
+            {/* <Icon className="size-5" /> */}
           </div>
 
           {/* maybe add badge */}
@@ -68,19 +68,19 @@ export default function RecentlyCard({ deck, isFirst }: RecentlyCardProps) {
           </p>
         </div>
       </CardHeader>
-      {isFirst ? (
+      {/* {isFirst ? (
         <FirstFooterVariant deck={deck} lastTime={lastTime} />
       ) : notCompletedDeck ? (
         <ContinueDeckFooterVariant deck={deck} lastTime={lastTime} />
       ) : (
         <DefaultFooterVariant deck={deck} lastTime={lastTime} />
-      )}
+      )} */}
     </Card>
   )
 }
 
 interface FooterProps {
-  deck: DeckRecently
+  deck: DeckRecent
   lastTime: string
 }
 

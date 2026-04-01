@@ -1,5 +1,3 @@
-import { DeckArchived } from "@/constants/deck"
-
 interface ArchivedDeckProps {
   deck: DeckArchived
 }
@@ -19,6 +17,7 @@ import { Button } from "@/components/ui/button"
 
 import { formatDistanceToNow } from "date-fns"
 import { Badge } from "@/components/ui/badge"
+import { DeckArchived } from "@/types"
 
 const iconMap = {
   "book-open": BookOpen,
@@ -29,17 +28,12 @@ const iconMap = {
 } as const
 
 export default function ArchivedDeck({ deck }: ArchivedDeckProps) {
-  const Icon = iconMap[deck.icon]
-  const archivedTime = formatDistanceToNow(deck.archivedTime, {
-    addSuffix: true,
-  })
-
   return (
     <Card className="flex min-h-60 w-sm gap-5 shadow-sm transition-shadow">
       <CardHeader className="space-y-4">
         <div className="flex items-start justify-between gap-3">
           <div className={"rounded-md bg-primary-foreground p-3 text-primary"}>
-            <Icon className="size-5" />
+            {/* <Icon className="size-5" /> */}
           </div>
 
           {/* maybe add badge */}
@@ -55,9 +49,7 @@ export default function ArchivedDeck({ deck }: ArchivedDeckProps) {
             {deck.description}
           </p>
         </div>
-        <CardAction>
-          <Badge>Accessed {archivedTime}</Badge>
-        </CardAction>
+        <CardAction>{/* <Badge>Accessed {archivedTime}</Badge> */}</CardAction>
       </CardHeader>
       <CardFooter className="mt-auto flex items-center justify-between">
         <div className="flex items-center gap-1 text-muted-foreground">
