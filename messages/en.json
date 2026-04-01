@@ -150,5 +150,145 @@
     "Ro": "Romanian"
   },
   "loading": "Loading...",
-  "error": "There is an error"
+  "error": "There is an error",
+  "LandingPage": {
+    "header": {
+      "features": "Features",
+      "howItWorks": "How it works",
+      "demo": "Try it",
+      "pricing": "Pricing",
+      "startNow": "Start now"
+    },
+    "hero": {
+      "badge": "AI-Powered Learning",
+      "title": "Turn PDFs into AI-powered flashcards in seconds",
+      "subtitle": "Upload any document and let AI generate smart study cards. Study smarter, retain more, and ace your exams with personalized flashcard decks.",
+      "cta": "Start now — it's free",
+      "secondaryCta": "See how it works",
+      "videoPlaceholder": "Demo video coming soon"
+    },
+    "features": {
+      "title": "Everything you need to study smarter",
+      "subtitle": "Powerful features designed to transform how you learn and retain information.",
+      "aiGeneration": {
+        "title": "AI-Powered Generation",
+        "description": "Upload a PDF and our AI instantly creates comprehensive flashcard decks, extracting key concepts and generating smart questions."
+      },
+      "multiLanguage": {
+        "title": "Multi-Language Support",
+        "description": "Study in your preferred language. Our AI generates cards in multiple languages, making learning accessible to everyone."
+      },
+      "smartSessions": {
+        "title": "Smart Study Sessions",
+        "description": "Interactive study sessions with instant feedback. Track correct and wrong answers to focus on what matters most."
+      },
+      "progressTracking": {
+        "title": "Progress Tracking",
+        "description": "Monitor your learning journey with detailed progress bars, completion rates, and performance summaries after each session."
+      }
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "subtitle": "From document to study-ready flashcards in three simple steps.",
+      "step1": {
+        "label": "Step 1",
+        "title": "Upload your document",
+        "description": "Drop any PDF — lecture notes, textbooks, research papers. Our system handles the rest."
+      },
+      "step2": {
+        "label": "Step 2",
+        "title": "AI generates your deck",
+        "description": "Our AI analyzes the content, extracts key concepts, and creates smart flashcards with questions and multiple-choice answers."
+      },
+      "step3": {
+        "label": "Step 3",
+        "title": "Study and master",
+        "description": "Go through your personalized deck, get instant feedback, track your progress, and review your results."
+      }
+    },
+    "demo": {
+      "title": "Try it yourself",
+      "subtitle": "Experience a sample study session right here. No signup required.",
+      "deckTitle": "Biology 101 — Cell Structure",
+      "cardOf": "of",
+      "checkAnswer": "Check answer",
+      "next": "Next",
+      "previous": "Previous",
+      "viewSummary": "View summary",
+      "summaryTitle": "Session complete!",
+      "summarySubtitle": "Here's how you did",
+      "correct": "Correct",
+      "wrong": "Wrong",
+      "score": "Your score",
+      "tryAgain": "Try again",
+      "startStudying": "Start studying your own decks",
+      "selectAnswer": "Select an answer"
+    },
+    "decks": {
+      "title": "Your decks, beautifully organized",
+      "subtitle": "Every deck you create is stored and ready for review. Here's what they look like.",
+      "cards": "cards",
+      "status": {
+        "ready": "Ready"
+      }
+    },
+    "testimonials": {
+      "title": "Loved by early testers",
+      "subtitle": "Here's what our beta users have to say about StudyCards.",
+      "t1": {
+        "quote": "I uploaded my 80-page biology notes and had a complete study deck in under a minute. This is incredible.",
+        "name": "Maria Ionescu",
+        "role": "Medical Student"
+      },
+      "t2": {
+        "quote": "The AI-generated questions are surprisingly accurate. It caught nuances in my law textbook that I would have missed.",
+        "name": "Andrei Popescu",
+        "role": "Law Student"
+      },
+      "t3": {
+        "quote": "I used to spend hours making flashcards manually. Now I upload a PDF and study in minutes. Game changer.",
+        "name": "Elena Dumitrescu",
+        "role": "Computer Science Student"
+      }
+    },
+    "pricing": {
+      "title": "Simple, transparent pricing",
+      "subtitle": "Start for free. Upgrade when you need more.",
+      "free": {
+        "name": "Free",
+        "price": "$0",
+        "period": "/month",
+        "description": "Perfect for getting started",
+        "cta": "Get started",
+        "features": {
+          "f1": "Up to 10 deck uploads",
+          "f2": "20 cards per deck",
+          "f3": "AI-powered generation",
+          "f4": "Basic study sessions",
+          "f5": "Progress tracking"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "$9",
+        "period": "/month",
+        "description": "For serious learners",
+        "cta": "Upgrade to Pro",
+        "badge": "Popular",
+        "features": {
+          "f1": "Up to 50 active decks",
+          "f2": "100 cards per deck",
+          "f3": "AI-powered generation",
+          "f4": "Advanced study sessions",
+          "f5": "Detailed analytics",
+          "f6": "Priority support"
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Ready to study smarter?",
+      "subtitle": "Join students who are already transforming their study habits with AI-powered flashcards.",
+      "cta": "Create your first deck — free"
+    }
+  }
 }

@@ -150,5 +150,146 @@
     "Ro": "Română"
   },
   "loading": "Se încarcă...",
-  "error": "A apărut o eroare"
+  "error": "A apărut o eroare",
+
+  "LandingPage": {
+    "header": {
+      "features": "Funcționalități",
+      "howItWorks": "Cum funcționează",
+      "demo": "Încearcă",
+      "pricing": "Prețuri",
+      "startNow": "Începe acum"
+    },
+    "hero": {
+      "badge": "Învățare cu AI",
+      "title": "Transformă PDF-urile în flashcard-uri inteligente în câteva secunde",
+      "subtitle": "Încarcă orice document și lasă AI-ul să genereze carduri de studiu inteligente. Învață mai eficient, reține mai mult și excelează la examene cu pachete de flashcard-uri personalizate.",
+      "cta": "Începe acum — e gratuit",
+      "secondaryCta": "Vezi cum funcționează",
+      "videoPlaceholder": "Video demonstrativ în curând"
+    },
+    "features": {
+      "title": "Tot ce ai nevoie pentru a învăța mai inteligent",
+      "subtitle": "Funcționalități puternice concepute să transforme modul în care înveți și reții informații.",
+      "aiGeneration": {
+        "title": "Generare cu AI",
+        "description": "Încarcă un PDF și AI-ul nostru creează instant pachete comprehensive de flashcard-uri, extrăgând conceptele cheie și generând întrebări inteligente."
+      },
+      "multiLanguage": {
+        "title": "Suport multilingv",
+        "description": "Studiază în limba preferată. AI-ul nostru generează carduri în mai multe limbi, făcând învățarea accesibilă tuturor."
+      },
+      "smartSessions": {
+        "title": "Sesiuni de studiu inteligente",
+        "description": "Sesiuni de studiu interactive cu feedback instant. Urmărește răspunsurile corecte și greșite pentru a te concentra pe ce contează."
+      },
+      "progressTracking": {
+        "title": "Urmărirea progresului",
+        "description": "Monitorizează-ți parcursul de învățare cu bare de progres detaliate, rate de completare și sumare de performanță după fiecare sesiune."
+      }
+    },
+    "howItWorks": {
+      "title": "Cum funcționează",
+      "subtitle": "De la document la flashcard-uri gata de studiu în trei pași simpli.",
+      "step1": {
+        "label": "Pasul 1",
+        "title": "Încarcă documentul",
+        "description": "Pune orice PDF — notițe de curs, manuale, lucrări de cercetare. Sistemul nostru se ocupă de rest."
+      },
+      "step2": {
+        "label": "Pasul 2",
+        "title": "AI-ul generează pachetul",
+        "description": "AI-ul nostru analizează conținutul, extrage conceptele cheie și creează flashcard-uri inteligente cu întrebări și răspunsuri cu variante multiple."
+      },
+      "step3": {
+        "label": "Pasul 3",
+        "title": "Studiază și excelează",
+        "description": "Parcurge pachetul personalizat, primește feedback instant, urmărește-ți progresul și revizuiește rezultatele."
+      }
+    },
+    "demo": {
+      "title": "Încearcă singur",
+      "subtitle": "Experimentează o sesiune de studiu de probă chiar aici. Fără înregistrare.",
+      "deckTitle": "Biologie 101 — Structura celulei",
+      "cardOf": "din",
+      "checkAnswer": "Verifică răspunsul",
+      "next": "Următorul",
+      "previous": "Anteriorul",
+      "viewSummary": "Vezi rezumatul",
+      "summaryTitle": "Sesiune completă!",
+      "summarySubtitle": "Iată cum te-ai descurcat",
+      "correct": "Corect",
+      "wrong": "Greșit",
+      "score": "Scorul tău",
+      "tryAgain": "Încearcă din nou",
+      "startStudying": "Începe să studiezi propriile pachete",
+      "selectAnswer": "Selectează un răspuns"
+    },
+    "decks": {
+      "title": "Pachetele tale, organizate frumos",
+      "subtitle": "Fiecare pachet creat este salvat și gata de revizuire. Iată cum arată.",
+      "cards": "carduri",
+      "status": {
+        "ready": "Pregătit"
+      }
+    },
+    "testimonials": {
+      "title": "Apreciat de primii utilizatori",
+      "subtitle": "Iată ce spun utilizatorii noștri beta despre StudyCards.",
+      "t1": {
+        "quote": "Am încărcat notițele mele de biologie de 80 de pagini și am avut un pachet complet de studiu în mai puțin de un minut. Este incredibil.",
+        "name": "Maria Ionescu",
+        "role": "Studentă la Medicină"
+      },
+      "t2": {
+        "quote": "Întrebările generate de AI sunt surprinzător de precise. A prins nuanțe din manualul meu de drept pe care le-aș fi ratat.",
+        "name": "Andrei Popescu",
+        "role": "Student la Drept"
+      },
+      "t3": {
+        "quote": "Obișnuiam să petrec ore întregi făcând flashcard-uri manual. Acum încarc un PDF și studiez în câteva minute. Revoluționar.",
+        "name": "Elena Dumitrescu",
+        "role": "Studentă la Informatică"
+      }
+    },
+    "pricing": {
+      "title": "Prețuri simple și transparente",
+      "subtitle": "Începe gratuit. Fă upgrade când ai nevoie de mai mult.",
+      "free": {
+        "name": "Gratuit",
+        "price": "$0",
+        "period": "/lună",
+        "description": "Perfect pentru a începe",
+        "cta": "Începe gratuit",
+        "features": {
+          "f1": "Până la 10 încărcări de pachete",
+          "f2": "20 carduri per pachet",
+          "f3": "Generare cu AI",
+          "f4": "Sesiuni de studiu de bază",
+          "f5": "Urmărirea progresului"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "price": "$9",
+        "period": "/lună",
+        "description": "Pentru cei dedicați",
+        "cta": "Treci la Pro",
+        "badge": "Popular",
+        "features": {
+          "f1": "Până la 50 pachete active",
+          "f2": "100 carduri per pachet",
+          "f3": "Generare cu AI",
+          "f4": "Sesiuni de studiu avansate",
+          "f5": "Analize detaliate",
+          "f6": "Suport prioritar"
+        }
+      }
+    },
+    "finalCta": {
+      "title": "Gata să înveți mai inteligent?",
+      "subtitle": "Alătură-te studenților care își transformă deja obiceiurile de studiu cu flashcard-uri generate de AI.",
+      "cta": "Creează primul pachet — gratuit"
+    }
+  }
 }
