@@ -1,5 +1,8 @@
 "use client"
 
+import { Link } from "@/i18n/navigation"
+
+
 import { DeckRecent } from "@/types"
 
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
@@ -21,7 +24,7 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
+
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 

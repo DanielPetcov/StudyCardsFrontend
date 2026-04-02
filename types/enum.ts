@@ -1,5 +1,6 @@
 export const plansEnum = ["free", "pro"] as const
 export const languagesEnum = ["en", "ro", "es", "fr", "de"] as const
+export const localesEnum = ["en", "ro"] as const
 export const deckStatusesEnum = ["processing", "ready", "failed"] as const
 export const deckIconNames = [
   "language",
@@ -31,6 +32,7 @@ export const deckIconNames = [
 
 export type Plan = (typeof plansEnum)[number]
 export type Language = (typeof languagesEnum)[number]
+export type Locales = (typeof localesEnum)[number]
 export type DeckStatus = (typeof deckStatusesEnum)[number]
 export type DeckIconName = (typeof deckIconNames)[number]
 

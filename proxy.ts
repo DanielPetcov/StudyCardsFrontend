@@ -1,7 +1,10 @@
-import { NextResponse } from "next/server"
-import type { NextRequest } from "next/server"
-
+import { type NextRequest, NextResponse } from "next/server"
 import { cookies } from "next/headers"
+
+import createMiddleware from "next-intl/middleware"
+import { routing } from "./i18n/routing"
+
+export default createMiddleware(routing)
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl

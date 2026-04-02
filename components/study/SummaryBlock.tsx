@@ -1,11 +1,13 @@
 "use client"
 
+import { Link } from "@/i18n/navigation"
+
 import { CheckCircle2, CircleDashed, Target, XCircle } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { useStudySession } from "@/stores/study-session.store"
 import { Button } from "../ui/button"
-import Link from "next/link"
+
 import { useTranslations } from "next-intl"
 
 interface SummaryBlockProps {

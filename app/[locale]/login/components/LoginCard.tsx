@@ -1,6 +1,7 @@
 "use client"
 
-import Link from "next/link"
+import { Link } from "@/i18n/navigation"
+
 import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeClosed, Loader2, MoveRight } from "lucide-react"

@@ -7,7 +7,10 @@ import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
 import Providers from "./providers"
 
-import { NextIntlClientProvider } from "next-intl"
+import {NextIntlClientProvider, hasLocale} from 'next-intl';
+import {notFound} from 'next/navigation';
+import {routing} from '@/i18n/routing';
+
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -16,11 +19,17 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+type Props = {
+  children: React.ReactNode;
+  params: Promise<{locale: string}>;
+};
+
+export default async function RootLayout({children, params}: Props) {
+  const {locale} = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+  
   return (
     <html
       lang="en"
