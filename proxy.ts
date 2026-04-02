@@ -1,26 +1,44 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { cookies } from "next/headers"
-
 import createMiddleware from "next-intl/middleware"
+import { type NextRequest, NextResponse } from "next/server"
 import { routing } from "./i18n/routing"
 
-export default createMiddleware(routing)
+const handleI18nRouting = createMiddleware(routing)
 
-export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl
+export default function proxy(request: NextRequest) {
+  const token = request.cookies.get("better-auth.session_token")?.value
 
-  if (pathname === "/") {
-    return NextResponse.next()
+  const response = handleI18nRouting(request)
+
+  const pathname = response.headers.get("x-middleware-rewrite")
+    ? new URL(response.headers.get("x-middleware-rewrite")!).pathname
+    : request.nextUrl.pathname
+
+  const segments = pathname.split("/").filter(Boolean)
+  const maybeLocale = segments[0]
+  const locale = routing.locales.includes(
+    maybeLocale as (typeof routing.locales)[number]
+  )
+    ? maybeLocale
+    : routing.defaultLocale
+
+  const pathWithoutLocale = routing.locales.includes(
+    maybeLocale as (typeof routing.locales)[number]
+  )
+    ? `/${segments.slice(1).join("/")}`
+    : pathname
+
+  const isPublicRoute =
+    pathWithoutLocale === "/" ||
+    pathWithoutLocale === "/login" ||
+    pathWithoutLocale === "/register"
+
+  if (!token && !isPublicRoute) {
+    return NextResponse.redirect(new URL(`/${locale}`, request.url))
   }
 
-  const cookie = await cookies()
-  const token = cookie.get("better-auth.session_token")
-
-  if (!token) {
-    return NextResponse.redirect(new URL("/login", request.url))
-  }
+  return response
 }
 
 export const config = {
-  matcher: ["/((?!^$|login|register|_next|favicon.ico|.*\\..*).*)"],
+  matcher: ["/", "/((?!api|trpc|_next|_vercel|.*\\..*).*)"],
 }

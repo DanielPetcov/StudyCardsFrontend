@@ -1,12 +1,13 @@
 "use client"
 
+import { useRouter } from "@/i18n/navigation"
+
 import { Search } from "lucide-react"
 
 import { SidebarTrigger } from "../ui/sidebar"
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../ui/input-group"
 
 import { SignoutUser } from "@/actions/signout-user"
-import { useRouter } from "next/navigation"
 import HeaderActionButtons from "./HeaderActionButtons"
 import HeaderLinks from "./HeaderLinks"
 import { useTranslations } from "next-intl"

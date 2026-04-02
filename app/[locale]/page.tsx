@@ -34,7 +34,7 @@ function HeroSection() {
     <section className="relative overflow-hidden">
       {/* Subtle gradient background */}
       <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute top-0 left-1/2 h-[600px] w-[900px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute top-0 left-1/2 h-150 w-225 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-3xl" />
       </div>
 
       <div className="container mx-auto max-w-6xl px-6 pt-20 pb-16 sm:pt-32 sm:pb-24">

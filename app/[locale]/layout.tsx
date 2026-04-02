@@ -1,16 +1,15 @@
 import { Geist, Geist_Mono } from "next/font/google"
 
-import "./globals.css"
+import "../globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/sonner"
 import { cn } from "@/lib/utils"
 import Providers from "./providers"
 
-import {NextIntlClientProvider, hasLocale} from 'next-intl';
-import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/routing';
-
+import { NextIntlClientProvider, hasLocale } from "next-intl"
+import { notFound } from "next/navigation"
+import { routing } from "@/i18n/routing"
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" })
 
@@ -20,16 +19,16 @@ const fontMono = Geist_Mono({
 })
 
 type Props = {
-  children: React.ReactNode;
-  params: Promise<{locale: string}>;
-};
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
+}
 
-export default async function RootLayout({children, params}: Props) {
-  const {locale} = await params;
+export default async function RootLayout({ children, params }: Props) {
+  const { locale } = await params
   if (!hasLocale(routing.locales, locale)) {
-    notFound();
+    notFound()
   }
-  
+
   return (
     <html
       lang="en"

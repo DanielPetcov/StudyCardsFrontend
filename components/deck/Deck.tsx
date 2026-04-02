@@ -2,7 +2,8 @@
 
 import type { Deck as DeckType } from "@/types"
 
-import { useRouter } from "next/navigation"
+import { useRouter } from "@/i18n/navigation"
+
 import { GalleryHorizontalEnd } from "lucide-react"
 
 import { cn } from "@/lib/utils"
