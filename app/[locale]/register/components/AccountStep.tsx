@@ -3,13 +3,7 @@
 import { Link } from "@/i18n/navigation"
 
 import { useState } from "react"
-import { useForm, SubmitHandler } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
 import { Eye, EyeClosed, Loader2, MoveRight } from "lucide-react"
-import { toast } from "sonner"
-
-import { RegisterSchema } from "@/schemas/register.schema"
-import { RegisterUser } from "@/actions/register-user"
 
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -31,41 +25,30 @@ import {
 
 import FormError from "@/components/FormError"
 import { useTranslations } from "next-intl"
+import { UseFormReturn, SubmitHandler } from "react-hook-form"
+import { RegisterSchema } from "@/schemas"
 
-export default function RegisterCard() {
+interface AccountStepProps {
+  form: UseFormReturn<RegisterSchema>
+  onNext: () => void
+}
+
+export default function AccountStep({ form, onNext }: AccountStepProps) {
+  const { register, handleSubmit } = form
+  const { errors } = form.formState
+
   const t = useTranslations("RegisterPage")
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RegisterSchema>({
-    resolver: zodResolver(RegisterSchema),
-  })
-
   const [passwordVisible, setPasswordVisible] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [formActionError, setFormActionError] = useState<string | null>(null)
 
-  const onSubmit: SubmitHandler<RegisterSchema> = async (data) => {
-    try {
-      setFormActionError(null)
-      setLoading(true)
+  const handleNext: SubmitHandler<RegisterSchema> = async (data) => {
+    const isValid = await form.trigger(["email", "name", "password"], {
+      shouldFocus: true,
+    })
 
-      const actionData = await RegisterUser({
-        dto: data,
-        setLoading,
-        setError: setFormActionError,
-      })
+    if (!isValid) return
 
-      if (actionData) {
-        toast.success("Account created successfully")
-      }
-    } catch {
-      setFormActionError("A network error happened. Try again.")
-    } finally {
-      setLoading(false)
-    }
+    onNext()
   }
 
   return (
@@ -82,13 +65,12 @@ export default function RegisterCard() {
       </CardHeader>
 
       <CardContent className="space-y-6">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <form onSubmit={handleSubmit(handleNext)} className="space-y-5">
           <div className="space-y-2.5">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
-              disabled={loading}
               autoComplete="email"
               placeholder="you@example.com"
               {...register("email")}
@@ -100,7 +82,6 @@ export default function RegisterCard() {
             <Label htmlFor="name">Name</Label>
             <Input
               id="name"
-              disabled={loading}
               autoComplete="name"
               placeholder={t("placeHolders.name")}
               {...register("name")}
@@ -113,7 +94,6 @@ export default function RegisterCard() {
             <InputGroup>
               <InputGroupInput
                 id="password"
-                disabled={loading}
                 type={passwordVisible ? "text" : "password"}
                 autoComplete="new-password"
                 placeholder={t("placeHolders.password")}
@@ -138,20 +118,9 @@ export default function RegisterCard() {
             )}
           </div>
 
-          {formActionError && <FormError message={formActionError} />}
-
-          <Button disabled={loading} type="submit" size="lg" className="w-full">
-            {loading ? (
-              <>
-                <Loader2 className="animate-spin" />
-                {t("creating")}
-              </>
-            ) : (
-              <>
-                {t("createButton")}
-                <MoveRight />
-              </>
-            )}
+          <Button type="submit" size="lg" className="w-full">
+            {t("createButton")}
+            <MoveRight />
           </Button>
         </form>
       </CardContent>
