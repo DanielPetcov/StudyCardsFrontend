@@ -1,3 +1,5 @@
+"use client"
+
 import { Languages } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -7,10 +9,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
-import { ChangeLocale } from "@/actions/change-locale"
+import { useLocaleNavigation } from "@/hooks/useChangeLocale"
 
 export function LanguageToggle({ className }: { className?: string }) {
+  const changeLocale = useLocaleNavigation()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -20,10 +23,10 @@ export function LanguageToggle({ className }: { className?: string }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => ChangeLocale("en")}>
+        <DropdownMenuItem onClick={() => changeLocale("en")}>
           En
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => ChangeLocale("ro")}>
+        <DropdownMenuItem onClick={() => changeLocale("ro")}>
           Ro
         </DropdownMenuItem>
       </DropdownMenuContent>

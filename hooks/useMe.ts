@@ -16,6 +16,8 @@ export function useMe() {
 
       const data = await res.json()
 
+      console.log(data)
+
       return UserResponseSchema.parse(data)
     },
     staleTime: 30 * 1000,

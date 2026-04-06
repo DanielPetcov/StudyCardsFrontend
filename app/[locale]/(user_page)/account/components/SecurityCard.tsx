@@ -15,7 +15,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group"
 
-import FormError from "@/components/FormError"
+import FormError from "@/components/general/FormError"
 import SettingsCardTitle from "./SettingsCardTitle"
 import { ChangePasswordSchema } from "@/schemas/changePassword.schema"
 

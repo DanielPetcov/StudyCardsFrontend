@@ -10,7 +10,7 @@ import { Button } from "../ui/button"
 import { ChevronLeft, ChevronRight, CheckCircle2, XCircle } from "lucide-react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import FormError from "../FormError"
+import FormError from "../general/FormError"
 import { cn } from "@/lib/utils"
 import { useParams } from "next/navigation"
 

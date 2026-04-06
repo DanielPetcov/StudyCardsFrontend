@@ -4,14 +4,18 @@ import { RegisterSchema } from "@/schemas/register.schema"
 
 interface RegisterUserProps {
   dto: RegisterSchema
-  setLoading: (value: boolean) => void
-  setError: (message: string) => void
+  setLoading?: (value: boolean) => void
+  setError?: (message: string) => void
+  onSuccess?: () => void
+  onError?: (message?: string) => void
 }
 
 export async function RegisterUser({
   dto,
   setLoading,
   setError,
+  onSuccess,
+  onError,
 }: RegisterUserProps) {
   const { data, error } = await authClient.signUp.email(
     {
@@ -22,14 +26,22 @@ export async function RegisterUser({
     },
     {
       onRequest: (ctx) => {
-        setLoading(true)
+        if (setLoading) setLoading(true)
       },
       onSuccess: (ctx) => {
-        setLoading(false)
+        if (onSuccess) {
+          onSuccess()
+          return
+        }
+        if (setLoading) setLoading(false)
       },
       onError: (ctx) => {
-        setError(ctx.error.message)
-        setLoading(false)
+        if (onError) {
+          onError(ctx.error.message)
+          return
+        }
+        if (setError) setError(ctx.error.message)
+        if (setLoading) setLoading(false)
       },
     }
   )

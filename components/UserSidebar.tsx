@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
-import DecksUsageProgress from "./DecksUsageProgress"
+import DecksUsageProgress from "./usage/DecksUsageProgress"
 import { useTranslations } from "next-intl"
 
 export default function UserSidebar() {
@@ -38,6 +38,11 @@ export default function UserSidebar() {
               key={link.href}
               asChild
               variant={pathname.endsWith(link.href) ? "default" : "secondary"}
+              className={
+                !pathname.endsWith(link.href)
+                  ? "bg-primary/20 hover:bg-primary/40"
+                  : ""
+              }
               size={"lg"}
             >
               <Link href={link.href}>

@@ -25,7 +25,7 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group"
 
-import FormError from "@/components/FormError"
+import FormError from "@/components/general/FormError"
 
 import { LoginSchema } from "@/schemas/login.schema"
 import { LoginUser } from "@/actions/login-user"

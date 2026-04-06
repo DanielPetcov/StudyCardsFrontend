@@ -1,4 +1,4 @@
-import PageTitle from "@/components/PageTitle"
+import PageTitle from "@/components/general/PageTitle"
 
 import ArchivedDeck from "./components/ArchivedDeck"
 import { getTranslations } from "next-intl/server"

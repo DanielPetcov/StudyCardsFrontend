@@ -1,4 +1,4 @@
-import PageTitle from "@/components/PageTitle"
+import PageTitle from "@/components/general/PageTitle"
 
 import StaredCard from "./components/StaredCard"
 import { getTranslations } from "next-intl/server"

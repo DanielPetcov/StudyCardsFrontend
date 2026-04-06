@@ -3,7 +3,7 @@
 import { Link } from "@/i18n/navigation"
 
 import { useState } from "react"
-import { Eye, EyeClosed, Loader2, MoveRight } from "lucide-react"
+import { Eye, EyeClosed, MoveRight } from "lucide-react"
 
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -23,32 +23,57 @@ import {
   InputGroupButton,
 } from "@/components/ui/input-group"
 
-import FormError from "@/components/FormError"
+import FormError from "@/components/general/FormError"
 import { useTranslations } from "next-intl"
-import { UseFormReturn, SubmitHandler } from "react-hook-form"
+import { SubmitHandler, useForm } from "react-hook-form"
 import { RegisterSchema } from "@/schemas"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { RegisterUser } from "@/actions/register-user"
 
 interface AccountStepProps {
-  form: UseFormReturn<RegisterSchema>
   onNext: () => void
 }
 
-export default function AccountStep({ form, onNext }: AccountStepProps) {
-  const { register, handleSubmit } = form
-  const { errors } = form.formState
+export default function AccountStep({ onNext }: AccountStepProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterSchema>({
+    resolver: zodResolver(RegisterSchema),
+  })
+  const [passwordVisible, setPasswordVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [registerError, setRegisterError] = useState<string | null | undefined>(
+    null
+  )
 
   const t = useTranslations("RegisterPage")
 
-  const [passwordVisible, setPasswordVisible] = useState(false)
-
-  const handleNext: SubmitHandler<RegisterSchema> = async (data) => {
-    const isValid = await form.trigger(["email", "name", "password"], {
-      shouldFocus: true,
-    })
-
-    if (!isValid) return
-
+  const handleSuccess = () => {
     onNext()
+  }
+
+  const handleError = (message?: string) => {
+    setRegisterError(message)
+  }
+
+  const onSubmit: SubmitHandler<RegisterSchema> = async (data) => {
+    try {
+      setLoading(true)
+      const result = await RegisterUser({
+        dto: data,
+        onSuccess: handleSuccess,
+        onError: handleError,
+      })
+      if (result) {
+        onNext()
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -65,12 +90,13 @@ export default function AccountStep({ form, onNext }: AccountStepProps) {
       </CardHeader>
 
       <CardContent className="space-y-6">
-        <form onSubmit={handleSubmit(handleNext)} className="space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-2.5">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
+              disabled={loading}
               autoComplete="email"
               placeholder="you@example.com"
               {...register("email")}
@@ -82,6 +108,7 @@ export default function AccountStep({ form, onNext }: AccountStepProps) {
             <Label htmlFor="name">Name</Label>
             <Input
               id="name"
+              disabled={loading}
               autoComplete="name"
               placeholder={t("placeHolders.name")}
               {...register("name")}
@@ -95,6 +122,7 @@ export default function AccountStep({ form, onNext }: AccountStepProps) {
               <InputGroupInput
                 id="password"
                 type={passwordVisible ? "text" : "password"}
+                disabled={loading}
                 autoComplete="new-password"
                 placeholder={t("placeHolders.password")}
                 {...register("password")}
@@ -102,6 +130,7 @@ export default function AccountStep({ form, onNext }: AccountStepProps) {
               <InputGroupAddon align="inline-end">
                 <InputGroupButton
                   type="button"
+                  disabled={loading}
                   variant="ghost"
                   size="icon-xs"
                   onClick={() => setPasswordVisible((prev) => !prev)}
@@ -118,7 +147,9 @@ export default function AccountStep({ form, onNext }: AccountStepProps) {
             )}
           </div>
 
-          <Button type="submit" size="lg" className="w-full">
+          {registerError && <FormError message={registerError} />}
+
+          <Button disabled={loading} type="submit" size="lg" className="w-full">
             {t("createButton")}
             <MoveRight />
           </Button>

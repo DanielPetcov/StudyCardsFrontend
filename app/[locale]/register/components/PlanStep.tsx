@@ -1,19 +1,16 @@
-import { Button } from "@/components/ui/button"
-import { RegisterSchema } from "@/schemas"
-import { UseFormReturn } from "react-hook-form"
+"use client"
 
-interface PlanStepProps {
-  form: UseFormReturn<RegisterSchema>
-  onNext: () => void
-  onBack: () => void
-}
+import FreePlanCard from "@/components/subscriptions/FreePlanCard"
+import ProPlanCard from "@/components/subscriptions/ProPlanCard"
 
-export default function PlanStep({ form, onBack, onNext }: PlanStepProps) {
+export default function PlanStep() {
   return (
-    <div>
-      this is plan step
-      <Button onClick={onBack}>go back</Button>
-      <Button onClick={onNext}>go next</Button>
+    <div className="flex flex-col gap-2">
+      <h2 className="mb-2 text-3xl">Choose the plan of your account</h2>
+      <div className="grid grid-cols-2 gap-5">
+        <FreePlanCard />
+        <ProPlanCard />
+      </div>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import { createAuthClient } from "better-auth/react"
-
+import { polarClient } from "@polar-sh/better-auth/client"
 import { inferAdditionalFields } from "better-auth/client/plugins"
 
 export const authClient = createAuthClient({
@@ -13,12 +13,13 @@ export const authClient = createAuthClient({
           defaultValue: "ro",
         },
         plan: {
-          type: "string",
+          type: ["free", "pro"],
           required: true,
           defaultValue: "free",
           input: false,
         },
       },
     }),
+    polarClient(),
   ],
 })

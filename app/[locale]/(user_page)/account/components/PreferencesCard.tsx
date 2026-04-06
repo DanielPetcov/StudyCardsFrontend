@@ -36,8 +36,10 @@ import z from "zod"
 import { languagesEnum, type Language } from "@/types/enum"
 import { Field, FieldLabel } from "@/components/ui/field"
 import { useLocale, useTranslations } from "next-intl"
-import { usePathname, useRouter } from "next/navigation"
-import { ChangeLocale } from "@/actions/change-locale"
+import { useLocaleNavigation } from "@/hooks/useChangeLocale"
+import { Skeleton } from "@/components/ui/skeleton"
+import SkeletonAccountCard from "@/components/general/SkeletonAccountCard"
+import { usePathname, useRouter } from "@/i18n/navigation"
 
 const languages: { value: Language; label: string }[] = [
   {
@@ -66,6 +68,7 @@ export default function PreferencesCard() {
 
   const locale = useLocale()
   const systemLanguage = isLanguage(locale) ? locale : "ro"
+  const changeLocale = useLocaleNavigation()
 
   const { data, isLoading } = useMe()
   const {
@@ -90,15 +93,19 @@ export default function PreferencesCard() {
   }, [locale])
 
   if (isLoading || !data) {
-    return <div>Loading</div>
+    return <SkeletonAccountCard />
   }
 
   const onSubmit: SubmitHandler<PreferencesFormValues> = async (data) => {
     try {
-      await ChangeLocale(data.systemLanguage)
+      changeLocale(data.systemLanguage)
     } catch (error) {
       console.error(error)
     }
+  }
+
+  if (isLoading) {
+    return <SkeletonAccountCard />
   }
 
   return (

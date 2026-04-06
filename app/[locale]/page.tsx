@@ -17,7 +17,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 
-import Footer from "@/components/Footer"
+import Footer from "@/components/footer/Footer"
 import { LandingHeader } from "@/components/landing/LandingHeader"
 import SectionHeading from "@/components/landing/SectionHeading"
 import VideoPlaceholder from "@/components/landing/VideoPlaceholder"

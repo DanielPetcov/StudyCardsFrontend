@@ -76,6 +76,7 @@ export function useUploadDeck() {
       )
 
       queryClient.invalidateQueries({ queryKey: ["decks"] })
+      queryClient.invalidateQueries({ queryKey: ["user-info"] })
     },
 
     onError: (err, file, context) => {
@@ -85,6 +86,8 @@ export function useUploadDeck() {
       )
 
       console.error("Upload failed:", err)
+
+      queryClient.invalidateQueries({ queryKey: ["user-info"] })
     },
   })
 }
