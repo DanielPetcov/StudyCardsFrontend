@@ -5,7 +5,10 @@ import { routing } from "./i18n/routing"
 const handleI18nRouting = createMiddleware(routing)
 
 export default function proxy(request: NextRequest) {
-  const token = request.cookies.get("better-auth.session_token")?.value
+  const cookie = request.cookies
+  const token =
+    cookie.get("__Secure-better-auth.session_token") ??
+    cookie.get("better-auth.session_token")
 
   const response = handleI18nRouting(request)
 
