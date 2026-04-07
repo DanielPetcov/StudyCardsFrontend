@@ -18,7 +18,9 @@
       "archived": "Archived"
     },
     "newUploadButton": "New Upload",
-    "usage": "Usage"
+    "usage": "Usage",
+    "totalUploads": "Total uploads",
+    "activeDecks": "Active Decks"
   },
   "Account": {
     "title": "Account Settings",
@@ -96,11 +98,13 @@
     },
     "selectAnAnswer": "Select an answer to see the explanation",
     "navigationButtons": {
+      "navigation": "Navigation",
       "prev": "Previous",
       "next": "Next",
       "check": "Check Answer",
       "finish": "Finish",
-      "nextCard": "Next Card"
+      "nextCard": "Next Card",
+      "submit": "Submit"
     },
     "summaryPage": {
       "title": "Study summary",
@@ -139,7 +143,8 @@
     "createButton": "Create account",
     "creating": "Creating account...",
     "alreadyHaveAccount": "Already have an account?",
-    "loginLink": "Login"
+    "loginLink": "Login",
+    "chooseYourPlan": "Choose your plan:"
   },
   "Footer": {
     "madeby": "Made by",

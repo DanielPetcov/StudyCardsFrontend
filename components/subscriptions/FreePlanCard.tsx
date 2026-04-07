@@ -17,7 +17,7 @@ export default function FreePlanCard() {
 
   return (
     <Card className="flex flex-col gap-0">
-      <CardHeader>
+      <CardHeader className="mb-2">
         <h3 className="text-xl font-semibold">{t("free.name")}</h3>
         <div className="mt-2 flex items-baseline gap-1">
           <span className="text-4xl font-bold">{t("free.price")}</span>

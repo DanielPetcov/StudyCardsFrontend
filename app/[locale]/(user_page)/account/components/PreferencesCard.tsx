@@ -1,27 +1,18 @@
 "use client"
 
-import { Check, ChevronsUpDown, Settings } from "lucide-react"
+import { Settings } from "lucide-react"
 import SettingsCardTitle from "./SettingsCardTitle"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-
-import { useEffect, useState } from "react"
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover"
-
-import { Button } from "@/components/ui/button"
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command"
-import { cn } from "@/lib/utils"
-import { Label } from "@/components/ui/label"
 import { useMe } from "@/hooks/useMe"
+import { useLocale, useTranslations } from "next-intl"
+import SkeletonAccountCard from "@/components/general/SkeletonAccountCard"
+import { authClient } from "@/lib/auth-client"
+import { useLocaleNavigation } from "@/hooks/useChangeLocale"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import z from "zod"
+import { languagesEnum, type Language } from "@/types/enum"
+import { Field, FieldLabel } from "@/components/ui/field"
 import {
   Select,
   SelectContent,
@@ -29,27 +20,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import z from "zod"
-
-import { languagesEnum, type Language } from "@/types/enum"
-import { Field, FieldLabel } from "@/components/ui/field"
-import { useLocale, useTranslations } from "next-intl"
-import { useLocaleNavigation } from "@/hooks/useChangeLocale"
-import { Skeleton } from "@/components/ui/skeleton"
-import SkeletonAccountCard from "@/components/general/SkeletonAccountCard"
-import { usePathname, useRouter } from "@/i18n/navigation"
+import { Button } from "@/components/ui/button"
+import { useState } from "react"
+import { useQueryClient } from "@tanstack/react-query"
 
 const languages: { value: Language; label: string }[] = [
-  {
-    value: "en",
-    label: "English",
-  },
-  {
-    value: "ro",
-    label: "Romanian",
-  },
+  { value: "en", label: "English" },
+  { value: "ro", label: "Romanian" },
 ]
 
 const PreferencesSchema = z.object({
@@ -64,48 +41,65 @@ function isLanguage(value: string): value is Language {
 }
 
 export default function PreferencesCard() {
-  const t = useTranslations("Account")
-
-  const locale = useLocale()
-  const systemLanguage = isLanguage(locale) ? locale : "ro"
-  const changeLocale = useLocaleNavigation()
-
   const { data, isLoading } = useMe()
-  const {
-    control,
-    handleSubmit,
-    resetField,
-    formState: { isDirty },
-  } = useForm<PreferencesFormValues>({
-    resolver: zodResolver(PreferencesSchema),
-    defaultValues: {
-      prefferedLanguage: data ? data.language : "ro",
-      systemLanguage: systemLanguage,
-    },
-  })
-
-  useEffect(() => {
-    const systemLanguage = isLanguage(locale) ? locale : "ro"
-    resetField("systemLanguage", {
-      keepDirty: false,
-      defaultValue: systemLanguage,
-    })
-  }, [locale])
 
   if (isLoading || !data) {
     return <SkeletonAccountCard />
   }
 
-  const onSubmit: SubmitHandler<PreferencesFormValues> = async (data) => {
+  return <PreferencesCardForm initialPreferredLanguage={data.language} />
+}
+
+function PreferencesCardForm({
+  initialPreferredLanguage,
+}: {
+  initialPreferredLanguage: Language
+}) {
+  const [loading, setLoading] = useState(false)
+  const t = useTranslations("Account")
+  const locale = useLocale()
+  const changeLocale = useLocaleNavigation()
+
+  const systemLanguage = isLanguage(locale) ? locale : "ro"
+
+  const {
+    control,
+    reset,
+    handleSubmit,
+    formState: { isDirty },
+  } = useForm<PreferencesFormValues>({
+    resolver: zodResolver(PreferencesSchema),
+    defaultValues: {
+      prefferedLanguage: initialPreferredLanguage,
+      systemLanguage,
+    },
+  })
+
+  const queryClient = useQueryClient()
+
+  const onSubmit: SubmitHandler<PreferencesFormValues> = async (formData) => {
     try {
-      changeLocale(data.systemLanguage)
+      setLoading(true)
+
+      if (formData.prefferedLanguage !== initialPreferredLanguage) {
+        await authClient.updateUser({
+          language: formData.prefferedLanguage,
+        })
+
+        queryClient.invalidateQueries({ queryKey: ["user-info"] })
+      }
+
+      changeLocale(formData.systemLanguage)
+
+      reset({
+        prefferedLanguage: formData.prefferedLanguage,
+        systemLanguage: formData.systemLanguage,
+      })
     } catch (error) {
       console.error(error)
+    } finally {
+      setLoading(false)
     }
-  }
-
-  if (isLoading) {
-    return <SkeletonAccountCard />
   }
 
   return (
@@ -118,11 +112,13 @@ export default function PreferencesCard() {
           />
         </CardTitle>
       </CardHeader>
+
       <CardContent>
         <form className="w-full space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="prefferedLanguage"
             control={control}
+            disabled={loading}
             render={({ field }) => (
               <Field>
                 <FieldLabel htmlFor="prefferedLanguage">
@@ -149,6 +145,7 @@ export default function PreferencesCard() {
           <Controller
             name="systemLanguage"
             control={control}
+            disabled={loading}
             render={({ field }) => (
               <Field>
                 <FieldLabel htmlFor="systemLanguage">
@@ -172,8 +169,12 @@ export default function PreferencesCard() {
             )}
           />
 
-          <Button disabled={!isDirty} className="w-full" type="submit">
-            {t("preferencesCard.change")}
+          <Button
+            disabled={!isDirty || loading}
+            className="w-full"
+            type="submit"
+          >
+            {loading ? "Updating..." : t("preferencesCard.change")}
           </Button>
         </form>
       </CardContent>

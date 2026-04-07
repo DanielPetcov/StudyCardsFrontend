@@ -67,10 +67,10 @@ export default function UserSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <Button size={"lg"}>
+        {/* <Button size={"lg"}>
           <Plus />
           {sidebarTranslation("newUploadButton")}
-        </Button>
+        </Button> */}
         <Separator className="mb-4" />
         <DecksUsageProgress />
       </SidebarFooter>

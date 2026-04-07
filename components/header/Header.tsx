@@ -30,12 +30,12 @@ export default function Header() {
       <div className="text-2xl font-bold">StudyCards</div>
       <div className="mx-4 flex grow items-center justify-end lg:justify-between">
         <HeaderLinks className="hidden lg:block" />
-        <InputGroup className="max-w-50">
+        {/* <InputGroup className="max-w-50">
           <InputGroupAddon>
             <Search />
           </InputGroupAddon>
           <InputGroupInput placeholder={t("searchInput")} />
-        </InputGroup>
+        </InputGroup> */}
       </div>
       <HeaderActionButtons />
     </header>

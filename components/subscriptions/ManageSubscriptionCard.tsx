@@ -35,7 +35,7 @@ export default function ManageSubscriptionCard() {
   return (
     <Card className="mx-auto max-w-5xl pt-0">
       <CardHeader className="bg-linear-90 from-blue-800 to-blue-600 p-5">
-        <CardTitle className="flex items-center justify-between">
+        <CardTitle className="flex flex-col items-center justify-between gap-2 lg:flex-row">
           <div className="flex items-center gap-3 text-accent dark:text-white">
             <BadgeCheck />
             <p className="text-2xl capitalize">{planType} Plan</p>

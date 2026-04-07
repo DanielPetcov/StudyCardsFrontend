@@ -56,13 +56,13 @@ export default function DecksUsageProgress() {
       <div className="flex items-center gap-1 pl-2 text-xs text-accent-foreground">
         <Gauge size={20} />
         <p>
-          {"Total uploads"}: {uploadsUsed}
+          {t("totalUploads")}: {uploadsUsed}
         </p>
       </div>
       <div className="flex items-center gap-1 pl-2 text-xs text-accent-foreground">
         <GalleryHorizontalEnd size={20} />
         <p>
-          {"Active decks"}: {activeDecks}
+          {t("activeDecks")}: {activeDecks}
         </p>
       </div>
     </div>

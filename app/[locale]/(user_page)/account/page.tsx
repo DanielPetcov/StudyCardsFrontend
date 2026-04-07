@@ -14,7 +14,7 @@ export default async function AccountPage() {
 
       <div className="mx-auto max-w-5xl">
         <ProfileCard className="mb-10" />
-        <div className="mb-10 grid grid-cols-2 gap-10">
+        <div className="mb-10 grid gap-5 lg:grid-cols-2 lg:gap-10">
           <PreferencesCard />
           <SecurityCard />
         </div>

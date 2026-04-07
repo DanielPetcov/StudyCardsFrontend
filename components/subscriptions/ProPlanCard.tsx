@@ -28,7 +28,7 @@ export default function ProPlanCard() {
       <div className="absolute -top-3 right-4">
         <Badge className="px-3 py-1">{t("pro.badge")}</Badge>
       </div>
-      <CardHeader>
+      <CardHeader className="mb-2">
         <h3 className="text-xl font-semibold">{t("pro.name")}</h3>
         <div className="mt-2 flex items-baseline gap-1">
           <span className="text-4xl font-bold">{t("pro.price")}</span>

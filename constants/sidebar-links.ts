@@ -8,21 +8,21 @@ export const sidebarLinks: SidebarLink[] = [
     href: "/dashboard",
     icon: FileStack,
   },
-  {
-    label: "recent",
-    href: "/dashboard/recent",
-    icon: History,
-  },
-  {
-    label: "starred",
-    href: "/dashboard/starred",
-    icon: Star,
-  },
-  {
-    label: "archived",
-    href: "/dashboard/archived",
-    icon: Archive,
-  },
+  // {
+  //   label: "recent",
+  //   href: "/dashboard/recent",
+  //   icon: History,
+  // },
+  // {
+  //   label: "starred",
+  //   href: "/dashboard/starred",
+  //   icon: Star,
+  // },
+  // {
+  //   label: "archived",
+  //   href: "/dashboard/archived",
+  //   icon: Archive,
+  // },
 ]
 
 export const sidebarHeaderLinks: SidebarHeaderLink[] = [
@@ -30,12 +30,12 @@ export const sidebarHeaderLinks: SidebarHeaderLink[] = [
     label: "dashboard",
     href: "/dashboard",
   },
-  {
-    label: "upload",
-    href: "/upload",
-  },
-  {
-    label: "library",
-    href: "/library",
-  },
+  // {
+  //   label: "upload",
+  //   href: "/upload",
+  // },
+  // {
+  //   label: "library",
+  //   href: "/library",
+  // },
 ]

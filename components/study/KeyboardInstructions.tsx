@@ -1,6 +1,9 @@
 import { cn } from "@/lib/utils"
+import { useTranslations } from "next-intl"
 
 export function KeyboardInstructions({ className }: { className?: string }) {
+  const t = useTranslations("DeckPage.navigationButtons")
+
   return (
     <div
       className={cn(
@@ -8,7 +11,7 @@ export function KeyboardInstructions({ className }: { className?: string }) {
         className
       )}
     >
-      <span>Navigation:</span>
+      <span>{t("navigation")}:</span>
 
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-1">
@@ -21,7 +24,7 @@ export function KeyboardInstructions({ className }: { className?: string }) {
           </kbd>
         </div>
 
-        <span>Previous</span>
+        <span>{t("prev")}</span>
       </div>
 
       <div className="flex items-center gap-2">
@@ -35,7 +38,7 @@ export function KeyboardInstructions({ className }: { className?: string }) {
           </kbd>
         </div>
 
-        <span>Next</span>
+        <span>{t("next")}</span>
       </div>
 
       <div className="flex items-center gap-2">
@@ -49,7 +52,7 @@ export function KeyboardInstructions({ className }: { className?: string }) {
           </kbd>
         </div>
 
-        <span>Submit</span>
+        <span>{t("submit")}</span>
       </div>
     </div>
   )

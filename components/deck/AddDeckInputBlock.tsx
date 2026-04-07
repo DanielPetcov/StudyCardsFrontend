@@ -124,7 +124,7 @@ export default function AddDeckInputBlock() {
   }
 
   return (
-    <div className="max-w-sm min-w-sm">
+    <div className="max-w-sm lg:min-w-sm">
       <input
         ref={inputRef}
         type="file"
