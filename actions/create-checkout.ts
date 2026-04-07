@@ -1,7 +1,7 @@
 import { authClient } from "@/lib/auth-client"
 
 export async function CreateProSubscriptionCheckout() {
-  const productSlug = "c6108bc5-c526-4841-ae45-522bedb2fa9d"
+  const productSlug = process.env.NEXT_PUBLIC_POLAR_PRO_SUBSCRIPTION_ID
 
   await authClient.checkout({
     products: [productSlug],
