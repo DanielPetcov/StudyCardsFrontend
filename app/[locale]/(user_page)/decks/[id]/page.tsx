@@ -3,13 +3,14 @@
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
 
-import StudyCard from "@/components/study/StudyCard"
-import StudyCardsMenu from "@/components/study/StudyCardsMenu"
+import StudyCard from "@/components/study/studyCard/StudyCard"
+import StudyCardsMenu from "@/components/study/studyCard/StudyCardsMenu"
 import StudyProgressBar from "@/components/study/ProgressBar"
 
 import { useCards } from "@/hooks/useCards"
 import { useStudySession } from "@/stores/study-session.store"
 import SummaryBlock from "@/components/study/SummaryBlock"
+import { KeyboardInstructions } from "@/components/study/KeyboardInstructions"
 
 export default function DeckPage() {
   const params = useParams()
@@ -97,6 +98,8 @@ export default function DeckPage() {
           isLast={isLastCard}
           isComplete={finished.isComplete}
         />
+
+        <KeyboardInstructions className="mt-4 hidden lg:flex" />
       </div>
     </div>
   )

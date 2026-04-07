@@ -40,7 +40,7 @@ export default function SummaryBlock({
   return (
     <section
       className={cn(
-        "w-full rounded-3xl border bg-background p-4 shadow-sm sm:p-5",
+        "mx-auto w-full max-w-5xl rounded-3xl border bg-background p-4 shadow-sm sm:p-5",
         className
       )}
     >
